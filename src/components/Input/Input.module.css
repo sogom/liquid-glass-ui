@@ -1,0 +1,186 @@
+/* ── 기본 변수 ─────────────────────────────────── */
+.wrapper {
+  --glass-blur: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.wrapper.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── 라벨 ───────────────────────────────────────── */
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  padding-left: 2px;
+}
+
+/* ── 필드 래퍼 ──────────────────────────────────── */
+.fieldWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Input base ─────────────────────────────────── */
+.input {
+  width: 100%;
+  font-family: inherit;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  background: transparent;
+  border: none;
+  outline: none;
+  caret-color: #a78bfa;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* ── 사이즈 ─────────────────────────────────────── */
+.size-sm {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+.size-md {
+  height: 44px;
+  padding: 0 16px;
+  font-size: 14.5px;
+  border-radius: 14px;
+}
+.size-lg {
+  height: 54px;
+  padding: 0 20px;
+  font-size: 16px;
+  border-radius: 18px;
+}
+
+/* 아이콘 padding */
+.hasLeft { padding-left: 40px !important; }
+.hasRight { padding-right: 40px !important; }
+
+/* ── Variant: solid ─────────────────────────────── */
+.variant-solid {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.variant-solid:focus {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(167, 139, 250, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+/* ── Variant: outline ───────────────────────────── */
+.variant-outline {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+}
+.variant-outline:focus {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(167, 139, 250, 0.7);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+/* ── Variant: ghost ─────────────────────────────── */
+.variant-ghost {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0 !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.variant-ghost:focus {
+  border-bottom-color: rgba(167, 139, 250, 0.8);
+  box-shadow: 0 1px 0 rgba(139, 92, 246, 0.4);
+}
+
+/* ── State: error ───────────────────────────────── */
+.state-error {
+  border-color: rgba(248, 113, 113, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+.state-error:focus {
+  border-color: rgba(248, 113, 113, 0.8) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* ── State: success ─────────────────────────────── */
+.state-success {
+  border-color: rgba(74, 222, 128, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15) !important;
+}
+.state-success:focus {
+  border-color: rgba(74, 222, 128, 0.8) !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2) !important;
+}
+
+/* ── 아이콘 ─────────────────────────────────────── */
+.icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+.iconLeft { left: 12px; }
+.iconRight { right: 12px; }
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  pointer-events: all;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.35);
+  transition: color 0.2s ease;
+}
+.iconBtn:hover { color: rgba(255, 255, 255, 0.7); }
+
+/* ── 하단 메시지 ─────────────────────────────────── */
+.hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  padding-left: 2px;
+}
+.errorMsg {
+  font-size: 12px;
+  color: rgba(248, 113, 113, 0.9);
+  padding-left: 2px;
+}
+.successMsg {
+  font-size: 12px;
+  color: rgba(74, 222, 128, 0.9);
+  padding-left: 2px;
+}
+
+/* ── 반응형 ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .size-lg {
+    height: 48px;
+    padding: 0 16px;
+    font-size: 15px;
+  }
+}
