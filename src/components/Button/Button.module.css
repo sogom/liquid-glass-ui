@@ -1,0 +1,210 @@
+/* ── 기본 변수 ─────────────────────────────────── */
+.btn {
+  --glass-blur: 20px;
+  --glass-bg-opacity: 0.14;
+  --glass-accent-color: 139, 92, 246;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease,
+    background 0.2s ease,
+    opacity 0.2s ease,
+    border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  white-space: nowrap;
+  user-select: none;
+  text-decoration: none;
+  outline: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(0.97); }
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none !important;
+  pointer-events: none;
+}
+
+/* ── 빛 효과 레이어 ─────────────────────────────── */
+.glassShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+  pointer-events: none;
+  border-radius: inherit;
+  transition: opacity 0.25s ease;
+}
+
+.glassEdge {
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  pointer-events: none;
+}
+
+/* ── 사이즈 ─────────────────────────────────────── */
+.size-sm {
+  height: 32px;
+  padding: 0 14px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+.size-md {
+  height: 42px;
+  padding: 0 20px;
+  font-size: 14.5px;
+  border-radius: 14px;
+}
+.size-lg {
+  height: 54px;
+  padding: 0 28px;
+  font-size: 16px;
+  border-radius: 18px;
+}
+
+/* ── 모양 ───────────────────────────────────────── */
+.shape-pill { border-radius: 9999px !important; }
+.shape-rounded { /* size에서 지정한 radius 사용 */ }
+
+/* ── Variant: solid ─────────────────────────────── */
+.variant-solid {
+  background: rgba(255, 255, 255, var(--glass-bg-opacity));
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.variant-solid:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ── Variant: outline ───────────────────────────── */
+.variant-outline {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.variant-outline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* ── Variant: ghost ─────────────────────────────── */
+.variant-ghost {
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.7);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.variant-ghost .glassShine { opacity: 0; }
+.variant-ghost .glassEdge { opacity: 0; }
+.variant-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+.variant-ghost:hover .glassShine { opacity: 1; }
+.variant-ghost:hover .glassEdge { opacity: 1; }
+
+/* ── Variant: accent ────────────────────────────── */
+.variant-accent {
+  background: rgba(var(--glass-accent-color), 0.3);
+  border: 1px solid rgba(var(--glass-accent-color), 0.45);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 4px 20px rgba(var(--glass-accent-color), 0.25),
+    0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.variant-accent:hover:not(:disabled) {
+  background: rgba(var(--glass-accent-color), 0.45);
+  border-color: rgba(var(--glass-accent-color), 0.65);
+  box-shadow:
+    0 8px 32px rgba(var(--glass-accent-color), 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ── Glow 효과 ──────────────────────────────────── */
+.glow:hover:not(:disabled) {
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.15),
+    0 0 40px rgba(255, 255, 255, 0.08),
+    0 8px 28px rgba(0, 0, 0, 0.25);
+}
+.variant-accent.glow:hover:not(:disabled) {
+  box-shadow:
+    0 0 20px rgba(var(--glass-accent-color), 0.4),
+    0 0 40px rgba(var(--glass-accent-color), 0.2),
+    0 8px 32px rgba(var(--glass-accent-color), 0.3);
+}
+
+/* ── Loading ────────────────────────────────────── */
+.loading { pointer-events: none; opacity: 0.75; }
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 아이콘 / 레이블 ─────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.label {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── 반응형 ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .size-lg {
+    height: 48px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+}
