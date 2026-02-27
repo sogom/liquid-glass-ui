@@ -1,0 +1,209 @@
+/* ── Wrapper ────────────────────────────────────── */
+.wrapper {
+  --glass-blur: 14px;
+  --glass-bg-opacity: 0.1;
+  --toggle-active-color: 139, 92, 246;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wrapper.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── 라벨 ───────────────────────────────────────── */
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  user-select: none;
+  line-height: 1;
+}
+
+/* ── 트랙 (배경) ────────────────────────────────── */
+.track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, var(--glass-bg-opacity));
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  flex-shrink: 0;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.track:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* ── 활성 상태 ──────────────────────────────────── */
+.track.checked {
+  background: rgba(var(--toggle-active-color), 0.35);
+  border-color: rgba(var(--toggle-active-color), 0.5);
+  box-shadow:
+    0 2px 12px rgba(var(--toggle-active-color), 0.25),
+    0 1px 4px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ── 사이즈 ─────────────────────────────────────── */
+.size-sm {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.size-md {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.size-lg {
+  width: 56px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+/* ── 빛 반사 레이어 (트랙) ──────────────────────── */
+.glassShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── 썸 (핸들) ──────────────────────────────────── */
+.thumb {
+  position: relative;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.25),
+    0 0 1px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* 썸 빛 반사 */
+.thumbShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, transparent 50%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ── 썸 사이즈 + 이동 ───────────────────────────── */
+.size-sm .thumb {
+  width: 16px;
+  height: 16px;
+  margin: 0 2px;
+  transform: translateX(0);
+}
+
+.size-sm.checked .thumb {
+  transform: translateX(16px);
+}
+
+.size-md .thumb {
+  width: 20px;
+  height: 20px;
+  margin: 0 2px;
+  transform: translateX(0);
+}
+
+.size-md.checked .thumb {
+  transform: translateX(20px);
+}
+
+.size-lg .thumb {
+  width: 26px;
+  height: 26px;
+  margin: 0 2px;
+  transform: translateX(0);
+}
+
+.size-lg.checked .thumb {
+  transform: translateX(26px);
+}
+
+/* ── 활성 시 썸 강조 ─────────────────────────────── */
+.checked .thumb {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 1px 6px rgba(var(--toggle-active-color), 0.4),
+    0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+/* ── 호버 ───────────────────────────────────────── */
+.track:hover:not(:disabled) .thumb {
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.track:active:not(:disabled) .thumb {
+  transform: translateX(0) scale(0.92);
+}
+
+.track.checked:active:not(:disabled) .thumb {
+  /* 사이즈별로 checked 시 active 위치 유지 */
+}
+
+.size-sm:active:not(:disabled) .thumb {
+  transform: translateX(0) scale(0.9);
+}
+.size-sm.checked:active:not(:disabled) .thumb {
+  transform: translateX(16px) scale(0.9);
+}
+
+.size-md:active:not(:disabled) .thumb {
+  transform: translateX(0) scale(0.9);
+}
+.size-md.checked:active:not(:disabled) .thumb {
+  transform: translateX(20px) scale(0.9);
+}
+
+.size-lg:active:not(:disabled) .thumb {
+  transform: translateX(0) scale(0.9);
+}
+.size-lg.checked:active:not(:disabled) .thumb {
+  transform: translateX(26px) scale(0.9);
+}
+
+/* ── 반응형 ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .size-lg {
+    width: 50px;
+    height: 28px;
+  }
+  .size-lg .thumb {
+    width: 24px;
+    height: 24px;
+  }
+  .size-lg.checked .thumb {
+    transform: translateX(22px);
+  }
+}

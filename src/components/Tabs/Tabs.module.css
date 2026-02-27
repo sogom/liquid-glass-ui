@@ -1,0 +1,227 @@
+/* ── Tabs 루트 ──────────────────────────────────── */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ── TabList 공통 ───────────────────────────────── */
+.tabList {
+  --glass-blur: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  position: relative;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabList::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── TabList variant: solid ─────────────────────── */
+.list-variant-solid {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 4px;
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ── TabList variant: outline ───────────────────── */
+.list-variant-outline {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  padding: 0;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  gap: 0;
+}
+
+/* ── TabList variant: pill ──────────────────────── */
+.list-variant-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ── TabList 사이즈 ─────────────────────────────── */
+.list-size-sm { gap: 1px; }
+.list-size-md { gap: 2px; }
+.list-size-lg { gap: 4px; }
+
+.list-variant-outline.list-size-sm { gap: 0; }
+.list-variant-outline.list-size-md { gap: 0; }
+.list-variant-outline.list-size-lg { gap: 0; }
+
+/* ── Tab 공통 ───────────────────────────────────── */
+.tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+  outline: none;
+  flex-shrink: 0;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tab:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: -2px;
+}
+
+.tab:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tab:hover:not(:disabled):not(.active) {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ── Tab 사이즈 ─────────────────────────────────── */
+.tab-size-sm {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12.5px;
+}
+
+.tab-size-md {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 13.5px;
+}
+
+.tab-size-lg {
+  height: 44px;
+  padding: 0 22px;
+  font-size: 15px;
+}
+
+/* ── Tab variant: solid ─────────────────────────── */
+.tab-variant-solid {
+  border-radius: 12px;
+}
+
+.tab-variant-solid:hover:not(:disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tab-variant-solid.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.18),
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ── Tab variant: outline ───────────────────────── */
+.tab-variant-outline {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.tab-variant-outline:hover:not(:disabled):not(.active) {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.tab-variant-outline.active {
+  color: rgba(255, 255, 255, 0.95);
+  border-bottom-color: rgba(167, 139, 250, 0.8);
+  box-shadow: 0 1px 0 rgba(167, 139, 250, 0.4);
+}
+
+/* ── Tab variant: pill ──────────────────────────── */
+.tab-variant-pill {
+  border-radius: 9999px;
+}
+
+.tab-variant-pill:hover:not(:disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tab-variant-pill.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ── Tab 아이콘 / 레이블 ────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* ── TabPanel ───────────────────────────────────── */
+.tabPanel {
+  outline: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.tabPanel:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── solid / pill 사이즈별 border-radius ─────────── */
+.list-variant-solid .tab-size-sm { border-radius: 8px; }
+.list-variant-solid .tab-size-md { border-radius: 12px; }
+.list-variant-solid .tab-size-lg { border-radius: 14px; }
+
+/* ── 반응형 ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .tab-size-lg {
+    height: 40px;
+    padding: 0 18px;
+    font-size: 14px;
+  }
+}

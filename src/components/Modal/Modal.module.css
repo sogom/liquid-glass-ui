@@ -1,0 +1,163 @@
+/* ── Overlay ────────────────────────────────────── */
+.overlay {
+  --overlay-blur: 6px;
+
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(var(--overlay-blur));
+  backdrop-filter: blur(var(--overlay-blur));
+  padding: 24px;
+  animation: overlayIn 0.25s ease forwards;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Modal 본체 ─────────────────────────────────── */
+.modal {
+  --modal-blur: 24px;
+  --modal-bg: rgba(30, 25, 55, 0.8);
+
+  position: relative;
+  width: 100%;
+  background: var(--modal-bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  -webkit-backdrop-filter: blur(var(--modal-blur));
+  backdrop-filter: blur(var(--modal-blur));
+  box-shadow:
+    0 16px 64px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  outline: none;
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── 사이즈 ─────────────────────────────────────── */
+.size-sm { max-width: 360px; }
+.size-md { max-width: 460px; }
+.size-lg { max-width: 600px; }
+
+/* ── 빛 효과 ────────────────────────────────────── */
+.glassShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 45%);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.glassEdge {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── ModalHeader ────────────────────────────────── */
+.header {
+  position: relative;
+  z-index: 1;
+  padding: 24px 28px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.headerContent {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── 닫기 버튼 ──────────────────────────────────── */
+.closeBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+}
+
+/* ── ModalBody ──────────────────────────────────── */
+.body {
+  position: relative;
+  z-index: 1;
+  padding: 20px 28px;
+}
+
+/* ── ModalFooter ────────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 1;
+  padding: 0 28px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-align-left { justify-content: flex-start; }
+.footer-align-center { justify-content: center; }
+.footer-align-right { justify-content: flex-end; }
+
+/* ── 반응형 ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .modal {
+    border-radius: 20px;
+  }
+
+  .header {
+    padding: 20px 20px 0;
+  }
+
+  .body {
+    padding: 16px 20px;
+  }
+
+  .footer {
+    padding: 0 20px 20px;
+  }
+}
