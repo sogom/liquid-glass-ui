@@ -14,11 +14,6 @@
   ],
   "author": "Jinu",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sogom/liquid-glass-ui"
-  },
-  "homepage": "https://github.com/sogom/liquid-glass-ui#readme",
   "main": "./dist/liquid-glass-ui.cjs",
   "module": "./dist/liquid-glass-ui.js",
   "types": "./dist/index.d.ts",
