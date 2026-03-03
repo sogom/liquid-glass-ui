@@ -1,9 +1,17 @@
 {
-  "name": "liquid-glass-ui",
+  "name": "@sogom/liquid-glass-ui",
   "version": "0.1.0",
   "type": "module",
   "description": "Apple Liquid Glass inspired React UI components with glassmorphism effects",
-  "keywords": ["react", "ui", "components", "glassmorphism", "liquid-glass", "apple", "design-system"],
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "glassmorphism",
+    "liquid-glass",
+    "apple",
+    "design-system"
+  ],
   "author": "Jinu",
   "license": "MIT",
   "repository": {
