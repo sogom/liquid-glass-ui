@@ -1,0 +1,29 @@
+/* ══════════════════════════════════════════════════
+   Liquid Glass UI — EY (Ernst & Young) Theme
+
+   EY Brand Colors:
+     Primary Yellow:  #FFE600 → RGB 255, 230, 0
+     Dark:            #2E2E38 → RGB 46, 46, 56
+     Gray:            #747480 → RGB 116, 116, 128
+     White:           #FFFFFF
+   ══════════════════════════════════════════════════ */
+
+[data-theme="ey"] {
+  /* ── Button ── */
+  --glass-accent-color: 255, 230, 0;
+
+  /* ── Badge ── */
+  --badge-color: 255, 230, 0;
+
+  /* ── Toggle ── */
+  --toggle-active-color: 255, 230, 0;
+
+  /* ── Card ── */
+  --card-glow-color: 255, 230, 0;
+
+  /* ── Modal ── */
+  --modal-bg: rgba(46, 46, 56, 0.85);
+
+  /* ── Tooltip ── */
+  --tooltip-bg: rgba(46, 46, 56, 0.85);
+}

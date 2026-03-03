@@ -7,12 +7,13 @@
 /* ── Tooltip 본체 ───────────────────────────────── */
 .tooltip {
   --glass-blur: 20px;
+  --tooltip-bg: rgba(30, 25, 55, 0.75);
 
   position: absolute;
   z-index: 9999;
   padding: 8px 14px;
   border-radius: 10px;
-  background: rgba(30, 25, 55, 0.75);
+  background: var(--tooltip-bg);
   border: 1px solid rgba(255, 255, 255, 0.15);
   -webkit-backdrop-filter: blur(var(--glass-blur));
   backdrop-filter: blur(var(--glass-blur));
@@ -58,7 +59,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: rgba(30, 25, 55, 0.75);
+  background: var(--tooltip-bg);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transform: rotate(45deg);
   z-index: 0;

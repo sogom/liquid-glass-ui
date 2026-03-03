@@ -21,3 +21,6 @@ export type { TooltipProps, TooltipPlacement, TooltipTrigger } from './component
 
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './components/Modal';
 export type { ModalProps, ModalHeaderProps, ModalBodyProps, ModalFooterProps, ModalSize } from './components/Modal';
+
+export { ThemeProvider } from './themes';
+export type { ThemeProviderProps, ThemeName } from './themes';

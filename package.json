@@ -20,10 +20,12 @@
       "require": "./dist/liquid-glass-ui.cjs",
       "types": "./dist/index.d.ts"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./dist/style.css",
+    "./themes/ey.css": "./src/themes/ey.css"
   },
   "files": [
     "dist",
+    "src/themes/*.css",
     "README.md",
     "LICENSE"
   ],
