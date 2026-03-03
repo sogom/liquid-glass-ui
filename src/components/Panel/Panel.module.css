@@ -1,0 +1,125 @@
+/* ══════════════════════════════════════════════════
+   Panel — Glass content container
+   ══════════════════════════════════════════════════ */
+
+.panel {
+  --panel-blur: 18px;
+  --panel-bg: rgba(30, 25, 55, 0.65);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --panel-radius: 16px;
+  --panel-accent: 140, 130, 255;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  -webkit-backdrop-filter: blur(var(--panel-blur));
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.fill {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Variant: flat ────────────────────────────── */
+.variant-flat {
+  --panel-bg: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ── Size ─────────────────────────────────────── */
+.size-sm { --panel-padding: 12px; }
+.size-md { --panel-padding: 20px; }
+.size-lg { --panel-padding: 28px; }
+
+/* ── Glass effects ────────────────────────────── */
+.glassShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, transparent 45%);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.glassEdge {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── PanelHeader ──────────────────────────────── */
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: var(--panel-padding);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.headerContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── PanelBody ────────────────────────────────── */
+.body {
+  position: relative;
+  z-index: 1;
+  padding: var(--panel-padding);
+  flex: 1;
+}
+
+.bodyScroll {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* ── PanelFooter ──────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: var(--panel-padding);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-left { justify-content: flex-start; }
+.footer-center { justify-content: center; }
+.footer-right { justify-content: flex-end; }
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 640px) {
+  .panel {
+    --panel-radius: 12px;
+  }
+
+  .size-lg { --panel-padding: 20px; }
+}

@@ -30,4 +30,15 @@
   /* ── Dropdown ── */
   --dropdown-bg: rgba(46, 46, 56, 0.85);
   --dropdown-accent: 255, 230, 0;
+
+  /* ── AppBar ── */
+  --appbar-bg: rgba(46, 46, 56, 0.88);
+
+  /* ── Sidebar ── */
+  --sidebar-bg: rgba(46, 46, 56, 0.82);
+  --sidebar-accent: 255, 230, 0;
+
+  /* ── Panel ── */
+  --panel-bg: rgba(46, 46, 56, 0.7);
+  --panel-accent: 255, 230, 0;
 }

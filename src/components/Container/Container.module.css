@@ -1,0 +1,26 @@
+/* ── Container ──────────────────────────────────── */
+.container {
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Size ── */
+.size-sm { max-width: 640px; }
+.size-md { max-width: 768px; }
+.size-lg { max-width: 1024px; }
+.size-xl { max-width: 1280px; }
+.size-fluid { max-width: none; }
+
+/* ── 반응형 패딩 ── */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

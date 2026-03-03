@@ -1,0 +1,121 @@
+/* ── Divider ────────────────────────────────────── */
+.divider {
+  --divider-color: 255, 255, 255;
+  --divider-thickness: 1px;
+
+  flex-shrink: 0;
+}
+
+/* ── Orientation ── */
+.horizontal {
+  width: 100%;
+  height: var(--divider-thickness);
+}
+
+.vertical {
+  align-self: stretch;
+  width: var(--divider-thickness);
+}
+
+/* ── Variant: solid ── */
+.variant-solid.horizontal {
+  background: rgba(var(--divider-color), 0.1);
+}
+
+.variant-solid.vertical {
+  background: rgba(var(--divider-color), 0.1);
+}
+
+/* ── Variant: dashed ── */
+.variant-dashed.horizontal {
+  background: none;
+  height: 0;
+  border-top: var(--divider-thickness) dashed rgba(var(--divider-color), 0.15);
+}
+
+.variant-dashed.vertical {
+  background: none;
+  width: 0;
+  border-left: var(--divider-thickness) dashed rgba(var(--divider-color), 0.15);
+}
+
+/* ── Variant: gradient ── */
+.variant-gradient.horizontal {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--divider-color), 0.25),
+    transparent
+  );
+}
+
+.variant-gradient.vertical {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(var(--divider-color), 0.25),
+    transparent
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   With Label
+   ══════════════════════════════════════════════════ */
+.withLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.line {
+  flex: 1;
+  height: var(--divider-thickness, 1px);
+}
+
+/* 라벨 variant에 따른 line 스타일 */
+.withLabel.variant-solid .line {
+  background: rgba(var(--divider-color), 0.1);
+}
+
+.withLabel.variant-dashed .line {
+  background: none;
+  height: 0;
+  border-top: var(--divider-thickness, 1px) dashed rgba(var(--divider-color), 0.15);
+}
+
+.withLabel.variant-gradient .line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--divider-color), 0.25)
+  );
+}
+
+.withLabel.variant-gradient .line:last-of-type {
+  background: linear-gradient(
+    90deg,
+    rgba(var(--divider-color), 0.25),
+    transparent
+  );
+}
+
+/* ── Label Text ── */
+.labelText {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Label Position ── */
+.label-left .line:first-of-type {
+  flex: 0 0 24px;
+}
+
+.label-right .line:last-of-type {
+  flex: 0 0 24px;
+}

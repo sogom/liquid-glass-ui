@@ -1,0 +1,120 @@
+/* ══════════════════════════════════════════════════
+   AppBar — Glass navigation bar
+   ══════════════════════════════════════════════════ */
+
+.appbar {
+  --appbar-blur: 20px;
+  --appbar-bg: rgba(30, 25, 55, 0.72);
+  --appbar-border: rgba(255, 255, 255, 0.12);
+  --appbar-height: 64px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--appbar-height);
+  padding: 0 24px;
+  background: var(--appbar-bg);
+  border-bottom: 1px solid var(--appbar-border);
+  -webkit-backdrop-filter: blur(var(--appbar-blur));
+  backdrop-filter: blur(var(--appbar-blur));
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+/* ── Position ─────────────────────────────────── */
+.position-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.position-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.position-static {
+  position: static;
+}
+
+/* ── Size ─────────────────────────────────────── */
+.size-compact {
+  --appbar-height: 48px;
+  padding: 0 16px;
+}
+
+/* ── Variant: transparent ─────────────────────── */
+.variant-transparent {
+  --appbar-bg: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ── Glass effects ────────────────────────────── */
+.glassShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glassEdge {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Slot layout ──────────────────────────────── */
+.leading,
+.center,
+.trailing {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leading {
+  flex-shrink: 0;
+}
+
+.center {
+  flex: 1;
+  justify-content: center;
+}
+
+.trailing {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ── Freeform content ─────────────────────────── */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 640px) {
+  .appbar {
+    padding: 0 16px;
+  }
+}
