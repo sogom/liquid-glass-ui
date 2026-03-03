@@ -22,5 +22,8 @@ export type { TooltipProps, TooltipPlacement, TooltipTrigger } from './component
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './components/Modal';
 export type { ModalProps, ModalHeaderProps, ModalBodyProps, ModalFooterProps, ModalSize } from './components/Modal';
 
+export { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownDivider, DropdownGroup } from './components/Dropdown';
+export type { DropdownProps, DropdownTriggerProps, DropdownMenuProps, DropdownItemProps, DropdownDividerProps, DropdownGroupProps, DropdownSize, DropdownPlacement } from './components/Dropdown';
+
 export { ThemeProvider } from './themes';
 export type { ThemeProviderProps, ThemeName } from './themes';

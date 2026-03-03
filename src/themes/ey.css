@@ -26,4 +26,8 @@
 
   /* ── Tooltip ── */
   --tooltip-bg: rgba(46, 46, 56, 0.85);
+
+  /* ── Dropdown ── */
+  --dropdown-bg: rgba(46, 46, 56, 0.85);
+  --dropdown-accent: 255, 230, 0;
 }
