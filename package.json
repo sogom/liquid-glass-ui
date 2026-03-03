@@ -40,6 +40,8 @@
     "build": "tsc -p tsconfig.build.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "dev:demo": "vite dev --config vite.demo.config.ts",
+    "build:demo": "vite build --config vite.demo.config.ts",
     "prepublishOnly": "npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

@@ -25,6 +25,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   color?: string;
   /** hover 시 glow 효과 */
   glow?: boolean;
+  /** glow 강도 (0 ~ 1, 기본 1) */
+  glowIntensity?: number;
 }
 
 // ── 컴포넌트 ───────────────────────────────────
@@ -40,6 +42,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       intensity = 1,
       color,
       glow = false,
+      glowIntensity = 1,
       disabled,
       className,
       children,
@@ -58,6 +61,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       '--glass-blur': blurValue,
       '--glass-bg-opacity': bgOpacity,
       ...(color ? { '--glass-accent-color': color } : {}),
+      ...(glow && glowIntensity !== 1 ? { '--glow-intensity': glowIntensity } : {}),
       ...style,
     } as React.CSSProperties;
 

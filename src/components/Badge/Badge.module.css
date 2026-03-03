@@ -2,7 +2,6 @@
 .badge {
   --glass-blur: 16px;
   --glass-bg-opacity: 0.12;
-  --badge-color: 139, 92, 246;
 
   display: inline-flex;
   align-items: center;
@@ -100,8 +99,8 @@
 
 /* ── Variant: solid ─────────────────────────────── */
 .variant-solid {
-  background: rgba(var(--badge-color), var(--glass-bg-opacity));
-  border: 1px solid rgba(var(--badge-color), 0.25);
+  background: rgba(var(--badge-color, 139, 92, 246), var(--glass-bg-opacity));
+  border: 1px solid rgba(var(--badge-color, 139, 92, 246), 0.25);
   color: rgba(255, 255, 255, 0.9);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.15),
@@ -110,18 +109,18 @@
 }
 
 .variant-solid.interactive:hover {
-  background: rgba(var(--badge-color), 0.25);
-  border-color: rgba(var(--badge-color), 0.4);
+  background: rgba(var(--badge-color, 139, 92, 246), 0.25);
+  border-color: rgba(var(--badge-color, 139, 92, 246), 0.4);
   box-shadow:
-    0 4px 16px rgba(var(--badge-color), 0.2),
+    0 4px 16px rgba(var(--badge-color, 139, 92, 246), 0.2),
     0 2px 4px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 /* ── Variant: outline ───────────────────────────── */
 .variant-outline {
-  background: rgba(var(--badge-color), 0.04);
-  border: 1.5px solid rgba(var(--badge-color), 0.35);
+  background: rgba(var(--badge-color, 139, 92, 246), 0.04);
+  border: 1.5px solid rgba(var(--badge-color, 139, 92, 246), 0.35);
   color: rgba(255, 255, 255, 0.85);
   box-shadow:
     0 1px 4px rgba(0, 0, 0, 0.08),
@@ -129,10 +128,10 @@
 }
 
 .variant-outline.interactive:hover {
-  background: rgba(var(--badge-color), 0.12);
-  border-color: rgba(var(--badge-color), 0.55);
+  background: rgba(var(--badge-color, 139, 92, 246), 0.12);
+  border-color: rgba(var(--badge-color, 139, 92, 246), 0.55);
   box-shadow:
-    0 4px 12px rgba(var(--badge-color), 0.15),
+    0 4px 12px rgba(var(--badge-color, 139, 92, 246), 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -155,8 +154,8 @@
 }
 
 .variant-ghost.interactive:hover {
-  background: rgba(var(--badge-color), 0.1);
-  border-color: rgba(var(--badge-color), 0.2);
+  background: rgba(var(--badge-color, 139, 92, 246), 0.1);
+  border-color: rgba(var(--badge-color, 139, 92, 246), 0.2);
   color: rgba(255, 255, 255, 0.9);
   -webkit-backdrop-filter: blur(var(--glass-blur));
   backdrop-filter: blur(var(--glass-blur));
@@ -173,29 +172,33 @@
 
 /* ── Variant: accent ────────────────────────────── */
 .variant-accent {
-  background: rgba(var(--badge-color), 0.3);
-  border: 1px solid rgba(var(--badge-color), 0.45);
+  background: rgba(var(--badge-color, 139, 92, 246), 0.3);
+  border: 1px solid rgba(var(--badge-color, 139, 92, 246), 0.45);
   color: rgba(255, 255, 255, 0.95);
   box-shadow:
-    0 2px 10px rgba(var(--badge-color), 0.2),
+    0 2px 10px rgba(var(--badge-color, 139, 92, 246), 0.2),
     0 1px 2px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .variant-accent.interactive:hover {
-  background: rgba(var(--badge-color), 0.42);
-  border-color: rgba(var(--badge-color), 0.65);
+  background: rgba(var(--badge-color, 139, 92, 246), 0.42);
+  border-color: rgba(var(--badge-color, 139, 92, 246), 0.65);
   box-shadow:
-    0 4px 20px rgba(var(--badge-color), 0.3),
+    0 4px 20px rgba(var(--badge-color, 139, 92, 246), 0.3),
     0 2px 4px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 /* ── Glow 효과 ──────────────────────────────────── */
-.glow.interactive:hover {
+.glow.interactive:hover,
+.variant-solid.glow.interactive:hover,
+.variant-outline.glow.interactive:hover,
+.variant-ghost.glow.interactive:hover,
+.variant-accent.glow.interactive:hover {
   box-shadow:
-    0 0 14px rgba(var(--badge-color), 0.35),
-    0 0 28px rgba(var(--badge-color), 0.15),
+    0 0 calc(14px * var(--glow-intensity, 1)) rgba(var(--badge-color, 139, 92, 246), calc(0.35 * var(--glow-intensity, 1))),
+    0 0 calc(28px * var(--glow-intensity, 1)) rgba(var(--badge-color, 139, 92, 246), calc(0.15 * var(--glow-intensity, 1))),
     0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -204,9 +207,9 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgb(var(--badge-color));
+  background: rgb(var(--badge-color, 139, 92, 246));
   flex-shrink: 0;
-  box-shadow: 0 0 4px rgba(var(--badge-color), 0.6);
+  box-shadow: 0 0 4px rgba(var(--badge-color, 139, 92, 246), 0.6);
 }
 
 .size-sm .dot {
@@ -228,11 +231,11 @@
   0%,
   100% {
     opacity: 1;
-    box-shadow: 0 0 4px rgba(var(--badge-color), 0.6);
+    box-shadow: 0 0 4px rgba(var(--badge-color, 139, 92, 246), 0.6);
   }
   50% {
     opacity: 0.5;
-    box-shadow: 0 0 8px rgba(var(--badge-color), 0.9);
+    box-shadow: 0 0 8px rgba(var(--badge-color, 139, 92, 246), 0.9);
   }
 }
 

@@ -3,21 +3,16 @@
    ══════════════════════════════════════════════════ */
 
 .appbar {
-  --appbar-blur: 20px;
-  --appbar-bg: rgba(30, 25, 55, 0.72);
-  --appbar-border: rgba(255, 255, 255, 0.12);
-  --appbar-height: 64px;
-
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--appbar-height);
+  height: var(--appbar-height, 64px);
   padding: 0 24px;
-  background: var(--appbar-bg);
-  border-bottom: 1px solid var(--appbar-border);
-  -webkit-backdrop-filter: blur(var(--appbar-blur));
-  backdrop-filter: blur(var(--appbar-blur));
+  background: var(--appbar-bg, rgba(30, 25, 55, 0.72));
+  border-bottom: 1px solid var(--appbar-border, rgba(255, 255, 255, 0.12));
+  -webkit-backdrop-filter: blur(var(--appbar-blur, 20px));
+  backdrop-filter: blur(var(--appbar-blur, 20px));
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);

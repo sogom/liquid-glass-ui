@@ -8,6 +8,17 @@ export interface ThemeProviderProps extends React.HTMLAttributes<HTMLDivElement>
   children: React.ReactNode;
 }
 
+// ── Theme Context ────────────────────────────────
+const ThemeContext = React.createContext<ThemeName>('default');
+
+/**
+ * useTheme
+ *
+ * 현재 활성 테마 이름을 반환합니다.
+ * Portal을 사용하는 컴포넌트(Modal 등)가 테마를 유지할 수 있도록 합니다.
+ */
+export const useTheme = (): ThemeName => React.useContext(ThemeContext);
+
 /**
  * ThemeProvider
  *
@@ -30,13 +41,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   ...rest
 }) => {
   return (
-    <div
-      data-theme={theme === 'default' ? undefined : theme}
-      style={{ display: 'contents', ...style }}
-      {...rest}
-    >
-      {children}
-    </div>
+    <ThemeContext.Provider value={theme}>
+      <div
+        data-theme={theme === 'default' ? undefined : theme}
+        style={{ display: 'contents', ...style }}
+        {...rest}
+      >
+        {children}
+      </div>
+    </ThemeContext.Provider>
   );
 };
 

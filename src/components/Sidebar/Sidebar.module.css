@@ -3,19 +3,14 @@
    ══════════════════════════════════════════════════ */
 
 .sidebar {
-  --sidebar-blur: 20px;
-  --sidebar-bg: rgba(30, 25, 55, 0.75);
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-accent: 140, 130, 255;
-
   position: relative;
   display: flex;
   flex-direction: column;
   width: var(--sidebar-width, 260px);
   height: 100%;
-  background: var(--sidebar-bg);
-  -webkit-backdrop-filter: blur(var(--sidebar-blur));
-  backdrop-filter: blur(var(--sidebar-blur));
+  background: var(--sidebar-bg, rgba(30, 25, 55, 0.75));
+  -webkit-backdrop-filter: blur(var(--sidebar-blur, 20px));
+  backdrop-filter: blur(var(--sidebar-blur, 20px));
   box-shadow:
     4px 0 24px rgba(0, 0, 0, 0.12),
     inset 1px 0 0 rgba(255, 255, 255, 0.04);
@@ -27,11 +22,11 @@
 
 /* ── Position ─────────────────────────────────── */
 .position-left {
-  border-right: 1px solid var(--sidebar-border);
+  border-right: 1px solid var(--sidebar-border, rgba(255, 255, 255, 0.1));
 }
 
 .position-right {
-  border-left: 1px solid var(--sidebar-border);
+  border-left: 1px solid var(--sidebar-border, rgba(255, 255, 255, 0.1));
   box-shadow:
     -4px 0 24px rgba(0, 0, 0, 0.12),
     inset -1px 0 0 rgba(255, 255, 255, 0.04);
@@ -120,19 +115,19 @@
 }
 
 .item:focus-visible {
-  outline: 2px solid rgba(var(--sidebar-accent), 0.5);
+  outline: 2px solid rgba(var(--sidebar-accent, 140, 130, 255), 0.5);
   outline-offset: -2px;
 }
 
 /* ── Active state ─────────────────────────────── */
 .active {
-  background: rgba(var(--sidebar-accent), 0.12);
-  color: rgb(var(--sidebar-accent));
+  background: rgba(var(--sidebar-accent, 140, 130, 255), 0.12);
+  color: rgb(var(--sidebar-accent, 140, 130, 255));
 }
 
 .active:hover {
-  background: rgba(var(--sidebar-accent), 0.18);
-  color: rgb(var(--sidebar-accent));
+  background: rgba(var(--sidebar-accent, 140, 130, 255), 0.18);
+  color: rgb(var(--sidebar-accent, 140, 130, 255));
 }
 
 /* ── Disabled state ───────────────────────────── */
@@ -183,4 +178,28 @@
   width: 24px;
   height: 24px;
   font-size: 20px;
+}
+
+/* ── 반응형 ────────────────────────────────────── */
+@media (max-width: 640px) {
+  .sidebar:not(.collapsed) {
+    width: var(--sidebar-collapsed-width, 64px);
+  }
+
+  .sidebar:not(.collapsed) .label,
+  .sidebar:not(.collapsed) .badge,
+  .sidebar:not(.collapsed) .sectionTitle {
+    display: none;
+  }
+
+  .sidebar:not(.collapsed) .item {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .sidebar:not(.collapsed) .icon {
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+  }
 }

@@ -2,7 +2,6 @@
 .wrapper {
   --glass-blur: 14px;
   --glass-bg-opacity: 0.1;
-  --toggle-active-color: 139, 92, 246;
 
   display: inline-flex;
   align-items: center;
@@ -54,10 +53,10 @@
 
 /* ── 활성 상태 ──────────────────────────────────── */
 .track.checked {
-  background: rgba(var(--toggle-active-color), 0.35);
-  border-color: rgba(var(--toggle-active-color), 0.5);
+  background: rgba(var(--toggle-active-color, 139, 92, 246), 0.35);
+  border-color: rgba(var(--toggle-active-color, 139, 92, 246), 0.5);
   box-shadow:
-    0 2px 12px rgba(var(--toggle-active-color), 0.25),
+    0 2px 12px rgba(var(--toggle-active-color, 139, 92, 246), 0.25),
     0 1px 4px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -153,7 +152,7 @@
 .checked .thumb {
   background: rgba(255, 255, 255, 0.95);
   box-shadow:
-    0 1px 6px rgba(var(--toggle-active-color), 0.4),
+    0 1px 6px rgba(var(--toggle-active-color, 139, 92, 246), 0.4),
     0 0 2px rgba(0, 0, 0, 0.15);
 }
 

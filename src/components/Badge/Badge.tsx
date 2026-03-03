@@ -30,6 +30,8 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: string;
   /** hover 시 glow 효과 */
   glow?: boolean;
+  /** glow 강도 (0 ~ 1, 기본 1) */
+  glowIntensity?: number;
   /** 클릭 가능 여부 (인터랙티브 뱃지) */
   interactive?: boolean;
   /** 닫기 버튼 표시 */
@@ -62,6 +64,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       intensity = 1,
       color,
       glow = false,
+      glowIntensity = 1,
       interactive = false,
       closable = false,
       onClose,
@@ -77,13 +80,14 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     const blurValue = `${Math.round(16 * intensity)}px`;
     const bgOpacity = 0.06 + 0.12 * intensity;
 
-    // 색상 결정: color prop > status 매핑
-    const resolvedColor = color || STATUS_COLORS[status];
+    // 색상 결정: color prop > status 매핑 (default는 테마 상속 허용)
+    const resolvedColor = color || (status !== 'default' ? STATUS_COLORS[status] : undefined);
 
     const customStyle: React.CSSProperties = {
       '--glass-blur': blurValue,
       '--glass-bg-opacity': bgOpacity,
-      '--badge-color': resolvedColor,
+      ...(resolvedColor ? { '--badge-color': resolvedColor } : {}),
+      ...(glow && glowIntensity !== 1 ? { '--glow-intensity': glowIntensity } : {}),
       ...style,
     } as React.CSSProperties;
 

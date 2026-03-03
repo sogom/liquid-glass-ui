@@ -131,7 +131,7 @@
 }
 
 .tab-variant-solid.active {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(var(--tabs-accent, 167, 139, 250), 0.18);
   color: rgba(255, 255, 255, 0.95);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.18),
@@ -154,8 +154,8 @@
 
 .tab-variant-outline.active {
   color: rgba(255, 255, 255, 0.95);
-  border-bottom-color: rgba(167, 139, 250, 0.8);
-  box-shadow: 0 1px 0 rgba(167, 139, 250, 0.4);
+  border-bottom-color: rgba(var(--tabs-accent, 167, 139, 250), 0.8);
+  box-shadow: 0 1px 0 rgba(var(--tabs-accent, 167, 139, 250), 0.4);
 }
 
 /* ── Tab variant: pill ──────────────────────────── */
@@ -168,7 +168,7 @@
 }
 
 .tab-variant-pill.active {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(var(--tabs-accent, 167, 139, 250), 0.2);
   color: rgba(255, 255, 255, 0.95);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.15),

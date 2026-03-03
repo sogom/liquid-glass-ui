@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Modal.module.css';
+import { useTheme } from '../../themes/ThemeProvider';
 
 // ── 타입 정의 ──────────────────────────────────
 export type ModalSize = 'sm' | 'md' | 'lg';
@@ -46,6 +47,7 @@ export const Modal: React.FC<ModalProps> = ({
   const overlayRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
+  const theme = useTheme();
 
   // ESC 키 닫기
   useEffect(() => {
@@ -80,42 +82,51 @@ export const Modal: React.FC<ModalProps> = ({
     [closeOnOverlay, onClose]
   );
 
-  const blurValue = `${Math.round(24 * intensity)}px`;
-  const overlayBlur = `${Math.round(6 * intensity)}px`;
-
+  // intensity가 기본값(1)이 아닌 경우에만 인라인으로 설정
   const customStyle: React.CSSProperties = {
-    '--modal-blur': blurValue,
-    '--overlay-blur': overlayBlur,
+    ...(intensity !== 1 ? {
+      '--modal-blur': `${Math.round(24 * intensity)}px`,
+      '--overlay-blur': `${Math.round(6 * intensity)}px`,
+    } : {}),
     ...(bgColor ? { '--modal-bg': bgColor } : {}),
     ...style,
   } as React.CSSProperties;
 
   if (!open) return null;
 
+  // 포탈 대상: data-theme 속성을 포함하는 래퍼로 감싸서
+  // ThemeProvider 밖에서도 테마 CSS 변수가 적용되도록 함
+  const themeAttr = theme !== 'default' ? theme : undefined;
+
   const modalContent = (
     <div
-      ref={overlayRef}
-      className={`${styles.overlay} ${open ? styles.open : ''}`}
-      onClick={handleOverlayClick}
-      aria-hidden={!open}
+      data-theme={themeAttr}
+      style={{ display: 'contents' }}
     >
       <div
-        ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        className={`${styles.modal} ${styles[`size-${size}`]} ${className ?? ''}`}
-        style={customStyle}
+        ref={overlayRef}
+        className={`${styles.overlay} ${open ? styles.open : ''}`}
+        onClick={handleOverlayClick}
+        aria-hidden={!open}
       >
-        {/* 빛 반사 레이어 */}
-        <span className={styles.glassShine} aria-hidden="true" />
-        <span className={styles.glassEdge} aria-hidden="true" />
+        <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          tabIndex={-1}
+          className={`${styles.modal} ${styles[`size-${size}`]} ${className ?? ''}`}
+          style={customStyle}
+        >
+          {/* 빛 반사 레이어 */}
+          <span className={styles.glassShine} aria-hidden="true" />
+          <span className={styles.glassEdge} aria-hidden="true" />
 
-        {/* titleId를 자식 ModalHeader에 전달하기 위한 Context 대신 data attribute 사용 */}
-        <ModalContext.Provider value={{ titleId, onClose }}>
-          {children}
-        </ModalContext.Provider>
+          {/* titleId를 자식 ModalHeader에 전달하기 위한 Context */}
+          <ModalContext.Provider value={{ titleId, onClose }}>
+            {children}
+          </ModalContext.Provider>
+        </div>
       </div>
     </div>
   );

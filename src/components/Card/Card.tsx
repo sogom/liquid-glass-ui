@@ -28,6 +28,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   intensity?: number;
   /** glow 커스텀 색상 (RGB 트리플릿) */
   color?: string;
+  /** glow 강도 (0 ~ 1, 기본 1) */
+  glowIntensity?: number;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
@@ -37,6 +39,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       size = 'md',
       hoverable = false,
       glow = false,
+      glowIntensity = 1,
       intensity = 1,
       color,
       className,
@@ -53,6 +56,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       '--glass-blur': blurValue,
       '--glass-bg-opacity': bgOpacity,
       ...(color ? { '--card-glow-color': color } : {}),
+      ...(glow && glowIntensity !== 1 ? { '--glow-intensity': glowIntensity } : {}),
       ...style,
     } as React.CSSProperties;
 

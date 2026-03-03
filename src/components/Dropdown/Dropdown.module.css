@@ -14,9 +14,9 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--dropdown-trigger-border, rgba(255, 255, 255, 0.15));
+  background: var(--dropdown-trigger-bg, rgba(255, 255, 255, 0.08));
+  color: var(--dropdown-trigger-color, rgba(255, 255, 255, 0.9));
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   box-shadow:
@@ -24,17 +24,18 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
   transition:
     background 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .trigger:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--dropdown-trigger-hover-bg, rgba(255, 255, 255, 0.12));
+  border-color: var(--dropdown-trigger-hover-border, rgba(255, 255, 255, 0.2));
 }
 
 .trigger.open {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: var(--dropdown-trigger-hover-bg, rgba(255, 255, 255, 0.12));
+  border-color: var(--dropdown-trigger-hover-border, rgba(255, 255, 255, 0.25));
 }
 
 .trigger:disabled,
@@ -56,18 +57,15 @@
    Menu
    ══════════════════════════════════════════════════ */
 .menu {
-  --dropdown-blur: 24px;
-  --dropdown-bg: rgba(30, 25, 55, 0.8);
-
   position: absolute;
   z-index: 9999;
   min-width: 200px;
   padding: 6px;
   border-radius: 14px;
-  background: var(--dropdown-bg);
+  background: var(--dropdown-bg, rgba(30, 25, 55, 0.8));
   border: 1px solid rgba(255, 255, 255, 0.12);
-  -webkit-backdrop-filter: blur(var(--dropdown-blur));
-  backdrop-filter: blur(var(--dropdown-blur));
+  -webkit-backdrop-filter: blur(var(--dropdown-blur, 24px));
+  backdrop-filter: blur(var(--dropdown-blur, 24px));
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.35),
     0 4px 12px rgba(0, 0, 0, 0.2),
@@ -146,8 +144,6 @@
    Menu Item
    ══════════════════════════════════════════════════ */
 .item {
-  --dropdown-accent: 139, 92, 246;
-
   display: flex;
   align-items: center;
   gap: 10px;
@@ -178,17 +174,17 @@
 
 .item:focus-visible:not(.itemDisabled) {
   background: rgba(255, 255, 255, 0.1);
-  outline: 2px solid rgba(var(--dropdown-accent), 0.5);
+  outline: 2px solid rgba(var(--dropdown-accent, 139, 92, 246), 0.5);
   outline-offset: -2px;
 }
 
 .item.active {
-  background: rgba(var(--dropdown-accent), 0.15);
-  color: rgb(var(--dropdown-accent));
+  background: rgba(var(--dropdown-accent, 139, 92, 246), 0.15);
+  color: rgb(var(--dropdown-accent, 139, 92, 246));
 }
 
 .item.active:hover {
-  background: rgba(var(--dropdown-accent), 0.22);
+  background: rgba(var(--dropdown-accent, 139, 92, 246), 0.22);
 }
 
 .item.itemDisabled {
@@ -231,7 +227,7 @@
 .check {
   margin-left: auto;
   font-size: 13px;
-  color: rgb(var(--dropdown-accent));
+  color: rgb(var(--dropdown-accent, 139, 92, 246));
   flex-shrink: 0;
 }
 
@@ -252,4 +248,22 @@
   color: rgba(255, 255, 255, 0.35);
   position: relative;
   z-index: 1;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 480px) {
+  .menu {
+    min-width: 160px;
+    border-radius: 12px;
+  }
+
+  .item {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .trigger {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
 }

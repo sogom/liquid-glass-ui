@@ -2,7 +2,6 @@
 .btn {
   --glass-blur: 20px;
   --glass-bg-opacity: 0.14;
-  --glass-accent-color: 139, 92, 246;
 
   display: inline-flex;
   align-items: center;
@@ -144,35 +143,39 @@
 
 /* ── Variant: accent ────────────────────────────── */
 .variant-accent {
-  background: rgba(var(--glass-accent-color), 0.3);
-  border: 1px solid rgba(var(--glass-accent-color), 0.45);
+  background: rgba(var(--glass-accent-color, 139, 92, 246), 0.3);
+  border: 1px solid rgba(var(--glass-accent-color, 139, 92, 246), 0.45);
   color: rgba(255, 255, 255, 0.95);
   box-shadow:
-    0 4px 20px rgba(var(--glass-accent-color), 0.25),
+    0 4px 20px rgba(var(--glass-accent-color, 139, 92, 246), 0.25),
     0 1px 4px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 .variant-accent:hover:not(:disabled) {
-  background: rgba(var(--glass-accent-color), 0.45);
-  border-color: rgba(var(--glass-accent-color), 0.65);
+  background: rgba(var(--glass-accent-color, 139, 92, 246), 0.45);
+  border-color: rgba(var(--glass-accent-color, 139, 92, 246), 0.65);
   box-shadow:
-    0 8px 32px rgba(var(--glass-accent-color), 0.35),
+    0 8px 32px rgba(var(--glass-accent-color, 139, 92, 246), 0.35),
     0 2px 8px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* ── Glow 효과 ──────────────────────────────────── */
-.glow:hover:not(:disabled) {
+/* specificity를 variant보다 높여서 glow가 항상 적용되도록 */
+.glow:hover:not(:disabled),
+.variant-solid.glow:hover:not(:disabled),
+.variant-outline.glow:hover:not(:disabled),
+.variant-ghost.glow:hover:not(:disabled) {
   box-shadow:
-    0 0 20px rgba(255, 255, 255, 0.15),
-    0 0 40px rgba(255, 255, 255, 0.08),
+    0 0 calc(20px * var(--glow-intensity, 1)) rgba(255, 255, 255, calc(0.15 * var(--glow-intensity, 1))),
+    0 0 calc(40px * var(--glow-intensity, 1)) rgba(255, 255, 255, calc(0.08 * var(--glow-intensity, 1))),
     0 8px 28px rgba(0, 0, 0, 0.25);
 }
 .variant-accent.glow:hover:not(:disabled) {
   box-shadow:
-    0 0 20px rgba(var(--glass-accent-color), 0.4),
-    0 0 40px rgba(var(--glass-accent-color), 0.2),
-    0 8px 32px rgba(var(--glass-accent-color), 0.3);
+    0 0 calc(20px * var(--glow-intensity, 1)) rgba(var(--glass-accent-color, 139, 92, 246), calc(0.4 * var(--glow-intensity, 1))),
+    0 0 calc(40px * var(--glow-intensity, 1)) rgba(var(--glass-accent-color, 139, 92, 246), calc(0.2 * var(--glow-intensity, 1))),
+    0 8px 32px rgba(var(--glass-accent-color, 139, 92, 246), calc(0.3 * var(--glow-intensity, 1)));
 }
 
 /* ── Loading ────────────────────────────────────── */

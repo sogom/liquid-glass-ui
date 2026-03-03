@@ -46,5 +46,5 @@ export type { SidebarProps, SidebarSectionProps, SidebarItemProps, SidebarPositi
 export { Panel, PanelHeader, PanelBody, PanelFooter } from './components/Panel';
 export type { PanelProps, PanelHeaderProps, PanelBodyProps, PanelFooterProps, PanelVariant, PanelSize } from './components/Panel';
 
-export { ThemeProvider } from './themes';
+export { ThemeProvider, useTheme } from './themes';
 export type { ThemeProviderProps, ThemeName } from './themes';
