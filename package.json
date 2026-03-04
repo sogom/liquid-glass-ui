@@ -1,6 +1,6 @@
 {
   "name": "@_jinu/liquid-glass-ui",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "type": "module",
   "description": "Apple Liquid Glass inspired React UI components with glassmorphism effects",
   "keywords": [
