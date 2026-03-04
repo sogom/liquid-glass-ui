@@ -15,7 +15,7 @@
   position: relative;
   -webkit-backdrop-filter: blur(var(--glass-blur));
   backdrop-filter: blur(var(--glass-blur));
-  overflow-x: auto;
+  overflow: visible;
   scrollbar-width: none;
 }
 
@@ -26,9 +26,9 @@
 /* ── TabList variant: solid ─────────────────────── */
 .list-variant-solid {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.12);
   border-radius: 16px;
-  padding: 4px;
+  padding: 10px 10px 4px 4px;
   box-shadow:
     0 2px 12px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
@@ -37,9 +37,9 @@
 /* ── TabList variant: outline ───────────────────── */
 .list-variant-outline {
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.12);
   border-radius: 0;
-  padding: 0;
+  padding: 8px 8px 0 0;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   gap: 0;
@@ -48,9 +48,9 @@
 /* ── TabList variant: pill ──────────────────────── */
 .list-variant-pill {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.1);
   border-radius: 9999px;
-  padding: 4px;
+  padding: 10px 10px 4px 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -73,7 +73,7 @@
   font-weight: 500;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.5);
   cursor: pointer;
   position: relative;
   white-space: nowrap;
@@ -88,7 +88,7 @@
 }
 
 .tab:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline: 2px solid rgba(var(--lg-fg, 255, 255, 255), 0.4);
   outline-offset: -2px;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .tab:hover:not(:disabled):not(.active) {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.75);
 }
 
 /* ── Tab 사이즈 ─────────────────────────────────── */
@@ -132,7 +132,7 @@
 
 .tab-variant-solid.active {
   background: rgba(var(--tabs-accent, 167, 139, 250), 0.18);
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.95);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.18),
     0 1px 2px rgba(0, 0, 0, 0.12),
@@ -149,11 +149,11 @@
 }
 
 .tab-variant-outline:hover:not(:disabled):not(.active) {
-  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(var(--lg-fg, 255, 255, 255), 0.2);
 }
 
 .tab-variant-outline.active {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.95);
   border-bottom-color: rgba(var(--tabs-accent, 167, 139, 250), 0.8);
   box-shadow: 0 1px 0 rgba(var(--tabs-accent, 167, 139, 250), 0.4);
 }
@@ -169,7 +169,7 @@
 
 .tab-variant-pill.active {
   background: rgba(var(--tabs-accent, 167, 139, 250), 0.2);
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.95);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -189,6 +189,34 @@
   line-height: 1;
 }
 
+/* ── Tab Badge (카운터) ────────────────────────── */
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  color: var(--tab-badge-color, #fff);
+  background: var(--tab-badge-bg, #ef4444);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  transform: translate(50%, -50%);
+  z-index: 2;
+}
+
+/* 빈 뱃지 (dot 스타일) — badge="" 일 때 */
+.badge:empty {
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+
 /* ── TabPanel ───────────────────────────────────── */
 .tabPanel {
   outline: none;
@@ -196,7 +224,7 @@
 }
 
 .tabPanel:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.3);
+  outline: 2px solid rgba(var(--lg-fg, 255, 255, 255), 0.3);
   outline-offset: 2px;
   border-radius: 8px;
 }

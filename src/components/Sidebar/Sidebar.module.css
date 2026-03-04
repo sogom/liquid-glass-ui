@@ -13,7 +13,7 @@
   backdrop-filter: blur(var(--sidebar-blur, 20px));
   box-shadow:
     4px 0 24px rgba(0, 0, 0, 0.12),
-    inset 1px 0 0 rgba(255, 255, 255, 0.04);
+    inset 1px 0 0 rgba(var(--lg-fg, 255, 255, 255), 0.04);
   overflow: hidden;
   transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
@@ -22,14 +22,14 @@
 
 /* ── Position ─────────────────────────────────── */
 .position-left {
-  border-right: 1px solid var(--sidebar-border, rgba(255, 255, 255, 0.1));
+  border-right: 1px solid var(--sidebar-border, rgba(var(--lg-fg, 255, 255, 255), 0.1));
 }
 
 .position-right {
-  border-left: 1px solid var(--sidebar-border, rgba(255, 255, 255, 0.1));
+  border-left: 1px solid var(--sidebar-border, rgba(var(--lg-fg, 255, 255, 255), 0.1));
   box-shadow:
     -4px 0 24px rgba(0, 0, 0, 0.12),
-    inset -1px 0 0 rgba(255, 255, 255, 0.04);
+    inset -1px 0 0 rgba(var(--lg-fg, 255, 255, 255), 0.04);
 }
 
 /* ── Collapsed ────────────────────────────────── */
@@ -79,7 +79,7 @@
 .section + .section {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.06);
 }
 
 .sectionTitle {
@@ -89,7 +89,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.35);
 }
 
 /* ── Item ─────────────────────────────────────── */
@@ -100,7 +100,7 @@
   padding: 10px 12px;
   border-radius: 10px;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.7);
   font-size: 14px;
   font-weight: 500;
   transition:
@@ -110,8 +110,8 @@
 }
 
 .item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.95);
+  background: rgba(var(--lg-fg, 255, 255, 255), 0.06);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.95);
 }
 
 .item:focus-visible {
@@ -138,7 +138,7 @@
 
 .disabled:hover {
   background: transparent;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.7);
 }
 
 /* ── Icon ─────────────────────────────────────── */
@@ -165,7 +165,7 @@
   flex-shrink: 0;
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.5);
 }
 
 /* ── Collapsed adjustments ────────────────────── */

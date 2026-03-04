@@ -33,7 +33,7 @@
 /* ── Variant: solid ─────────────────────────────── */
 .variant-solid {
   background: var(--card-bg, rgba(255, 255, 255, 0.1));
-  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.15));
+  border: 1px solid var(--card-border, rgba(var(--lg-fg, 255, 255, 255), 0.15));
   border-radius: 20px;
   -webkit-backdrop-filter: blur(var(--card-blur, 20px));
   backdrop-filter: blur(var(--card-blur, 20px));
@@ -46,7 +46,7 @@
 /* ── Variant: outline ───────────────────────────── */
 .variant-outline {
   background: var(--card-outline-bg, rgba(255, 255, 255, 0.03));
-  border: 1.5px solid var(--card-outline-border, rgba(255, 255, 255, 0.2));
+  border: 1.5px solid var(--card-outline-border, rgba(var(--lg-fg, 255, 255, 255), 0.2));
   border-radius: 20px;
   -webkit-backdrop-filter: blur(var(--card-blur, 20px));
   backdrop-filter: blur(var(--card-blur, 20px));
@@ -81,7 +81,7 @@
 }
 
 .variant-outline.hoverable:hover {
-  border-color: var(--card-outline-hover-border, rgba(255, 255, 255, 0.35));
+  border-color: var(--card-outline-hover-border, rgba(var(--lg-fg, 255, 255, 255), 0.35));
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.2),
     0 4px 12px rgba(0, 0, 0, 0.1),
@@ -90,7 +90,7 @@
 
 .variant-ghost.hoverable:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(var(--lg-fg, 255, 255, 255), 0.1);
 }
 
 /* ── Glow 효과 ──────────────────────────────────── */

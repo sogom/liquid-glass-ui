@@ -18,7 +18,7 @@
 .label {
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.7);
   user-select: none;
   line-height: 1;
 }
@@ -29,7 +29,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.18);
   background: rgba(255, 255, 255, var(--glass-bg-opacity));
   cursor: pointer;
   outline: none;
@@ -43,11 +43,11 @@
     box-shadow 0.3s ease;
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    inset 0 1px 0 rgba(var(--lg-fg, 255, 255, 255), 0.06);
 }
 
 .track:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline: 2px solid rgba(var(--lg-fg, 255, 255, 255), 0.5);
   outline-offset: 2px;
 }
 
@@ -58,7 +58,7 @@
   box-shadow:
     0 2px 12px rgba(var(--toggle-active-color, 139, 92, 246), 0.25),
     0 1px 4px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 1px 0 rgba(var(--lg-fg, 255, 255, 255), 0.1);
 }
 
 /* ── 사이즈 ─────────────────────────────────────── */

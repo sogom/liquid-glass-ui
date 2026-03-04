@@ -23,7 +23,7 @@
   position: relative;
   width: 100%;
   background: var(--modal-bg, rgba(30, 25, 55, 0.8));
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.15);
   border-radius: 24px;
   -webkit-backdrop-filter: blur(var(--modal-blur, 24px));
   backdrop-filter: blur(var(--modal-blur, 24px));
@@ -97,9 +97,9 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.1);
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.4);
   cursor: pointer;
   flex-shrink: 0;
   transition:
@@ -109,11 +109,11 @@
 
 .closeBtn:hover {
   background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.8);
 }
 
 .closeBtn:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline: 2px solid rgba(var(--lg-fg, 255, 255, 255), 0.4);
   outline-offset: 2px;
 }
 

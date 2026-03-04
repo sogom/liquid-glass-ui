@@ -20,8 +20,9 @@ npm install @_jinu/liquid-glass-ui
 // 1. 스타일 임포트
 import '@_jinu/liquid-glass-ui/dist/style.css';
 
-// 2. (선택) EY 테마
-import '@_jinu/liquid-glass-ui/themes/ey.css';
+// 2. (선택) 테마 임포트
+import '@_jinu/liquid-glass-ui/themes/ey.css';    // EY 다크 테마
+import '@_jinu/liquid-glass-ui/themes/light.css';  // 라이트 테마
 
 // 3. 컴포넌트 사용
 import { Button, Card, Modal, ThemeProvider } from '@_jinu/liquid-glass-ui';
@@ -267,14 +268,21 @@ import { Panel, PanelHeader, PanelBody, PanelFooter } from '@_jinu/liquid-glass-
 
 ```tsx
 import { ThemeProvider } from '@_jinu/liquid-glass-ui';
-import '@_jinu/liquid-glass-ui/themes/ey.css';
 
+// 다크 테마 (EY 브랜드)
+import '@_jinu/liquid-glass-ui/themes/ey.css';
 <ThemeProvider theme="ey">
+  <App />
+</ThemeProvider>
+
+// 라이트 테마 (AG Grid alpine 등 라이트 UI와 호환)
+import '@_jinu/liquid-glass-ui/themes/light.css';
+<ThemeProvider theme="light">
   <App />
 </ThemeProvider>
 ```
 
-사용 가능한 테마: `default`, `ey`
+사용 가능한 테마: `default` (다크 퍼플), `ey` (다크 옐로), `light` (라이트)
 
 ## 주요 특징
 
@@ -286,7 +294,7 @@ import '@_jinu/liquid-glass-ui/themes/ey.css';
 - Tree-shaking 지원
 - forwardRef 지원
 - Glow 강도 조절 (0–1) — Button, Badge, Card
-- 테마 시스템 (EY 테마 내장)
+- 테마 시스템 (EY 다크, Light 테마 내장)
 - UI, 레이아웃, 네비게이션을 포함한 18개 컴포넌트
 
 ## 라이선스

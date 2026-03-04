@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ThemeName = 'default' | 'ey';
+export type ThemeName = 'default' | 'ey' | 'light';
 
 export interface ThemeProviderProps extends React.HTMLAttributes<HTMLDivElement> {
   /** 적용할 테마 이름 */

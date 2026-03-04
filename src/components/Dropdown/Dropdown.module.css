@@ -14,9 +14,9 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid var(--dropdown-trigger-border, rgba(255, 255, 255, 0.15));
+  border: 1px solid var(--dropdown-trigger-border, rgba(var(--lg-fg, 255, 255, 255), 0.15));
   background: var(--dropdown-trigger-bg, rgba(255, 255, 255, 0.08));
-  color: var(--dropdown-trigger-color, rgba(255, 255, 255, 0.9));
+  color: var(--dropdown-trigger-color, rgba(var(--lg-fg, 255, 255, 255), 0.9));
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   box-shadow:
@@ -30,12 +30,12 @@
 
 .trigger:hover:not(:disabled) {
   background: var(--dropdown-trigger-hover-bg, rgba(255, 255, 255, 0.12));
-  border-color: var(--dropdown-trigger-hover-border, rgba(255, 255, 255, 0.2));
+  border-color: var(--dropdown-trigger-hover-border, rgba(var(--lg-fg, 255, 255, 255), 0.2));
 }
 
 .trigger.open {
   background: var(--dropdown-trigger-hover-bg, rgba(255, 255, 255, 0.12));
-  border-color: var(--dropdown-trigger-hover-border, rgba(255, 255, 255, 0.25));
+  border-color: var(--dropdown-trigger-hover-border, rgba(var(--lg-fg, 255, 255, 255), 0.25));
 }
 
 .trigger:disabled,
@@ -63,7 +63,7 @@
   padding: 6px;
   border-radius: 14px;
   background: var(--dropdown-bg, rgba(30, 25, 55, 0.8));
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(var(--lg-fg, 255, 255, 255), 0.12);
   -webkit-backdrop-filter: blur(var(--dropdown-blur, 24px));
   backdrop-filter: blur(var(--dropdown-blur, 24px));
   box-shadow:
@@ -150,7 +150,7 @@
   padding: 9px 12px;
   border-radius: 8px;
   font-size: 13.5px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.85);
   cursor: pointer;
   transition: background 0.12s ease;
   position: relative;
@@ -234,7 +234,7 @@
 /* ── Divider ── */
 .divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(var(--lg-fg, 255, 255, 255), 0.08);
   margin: 4px 8px;
 }
 
@@ -245,7 +245,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.35);
   position: relative;
   z-index: 1;
 }

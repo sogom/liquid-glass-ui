@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAXTRON Dashboard — AG Grid Alpine (Light) + Liquid Glass UI</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.0.2/styles/ag-grid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.0.2/styles/ag-theme-alpine.css">
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community@32.0.2/dist/ag-grid-community.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --ey-yellow: #FFE600;
+    --ey-dark: #2E2E38;
+    --glass-bg: rgba(46, 46, 56, 0.55);
+    --glass-border: rgba(255, 230, 0, 0.12);
+    --glass-blur: 16px;
+    --glass-light: rgba(255,255,255,0.06);
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255,255,255,0.6);
+    --text-muted: rgba(255,255,255,0.35);
+    --accent: #FFE600;
+    --accent-dim: rgba(255,230,0,0.15);
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .glass { background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); border: 1px solid var(--glass-border); border-radius: 14px; }
+  .glass-subtle { background: var(--glass-light); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; }
+  .glow-yellow { box-shadow: 0 0 20px rgba(255,230,0,0.08), 0 4px 24px rgba(0,0,0,0.3); }
+
+  .layout { display: flex; height: 100vh; overflow: hidden; }
+
+  .sidebar { width: 60px; background: rgba(46,46,56,0.8); backdrop-filter: blur(20px); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px; z-index: 10; }
+  .sidebar-logo { width: 36px; height: 36px; background: var(--ey-yellow); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: var(--ey-dark); margin-bottom: 20px; }
+  .sidebar-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: var(--text-secondary); font-size: 18px; cursor: pointer; transition: all 0.2s; position: relative; }
+  .sidebar-icon:hover { background: var(--glass-light); color: var(--text-primary); }
+  .sidebar-icon.active { background: var(--accent-dim); color: var(--accent); }
+  .sidebar-icon.active::before { content: ''; position: absolute; left: -10px; width: 3px; height: 20px; background: var(--accent); border-radius: 0 3px 3px 0; }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .topbar { height: 56px; background: rgba(46,46,56,0.5); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .topbar-title { font-size: 16px; font-weight: 700; color: var(--accent); }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
+  .topbar-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--glass-light); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; color: var(--text-secondary); font-size: 16px; cursor: pointer; position: relative; }
+  .topbar-badge { position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; background: var(--danger); border-radius: 50%; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .topbar-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #f59e0b); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--ey-dark); margin-left: 8px; }
+  .topbar-user { font-size: 13px; color: var(--text-secondary); margin-left: 4px; }
+
+  .tabs-bar { display: flex; align-items: center; gap: 4px; padding: 12px 24px 0; flex-shrink: 0; }
+  .tab { padding: 8px 18px; border-radius: 10px 10px 0 0; font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; border: 1px solid transparent; border-bottom: none; }
+  .tab:hover { color: var(--text-primary); background: var(--glass-light); }
+  .tab.active { background: var(--glass-bg); border-color: var(--glass-border); color: var(--accent); font-weight: 600; }
+
+  .content { flex: 1; display: flex; gap: 20px; padding: 20px 24px; overflow: hidden; }
+  .content-left { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .content-right { width: 380px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .section-header h2 { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .section-header h2::before { content: ''; display: inline-block; width: 3px; height: 18px; background: var(--accent); border-radius: 2px; }
+  .refresh-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: var(--glass-light); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; font-size: 14px; color: var(--text-secondary); cursor: pointer; }
+
+  /* AG Grid alpine (light) — 기본 스타일 그대로, 라운드만 추가 */
+  .grid-wrapper {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+
+  .stat-cards { display: flex; gap: 14px; margin-bottom: 20px; }
+  .stat-card { flex: 1; padding: 20px; text-align: center; position: relative; overflow: hidden; }
+  .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
+  .stat-card.orange::after { background: var(--warning); }
+  .stat-card.blue::after { background: var(--info); }
+  .stat-card.green::after { background: var(--success); }
+  .stat-number { font-size: 32px; font-weight: 700; margin-bottom: 6px; }
+  .stat-card.orange .stat-number { color: var(--warning); }
+  .stat-card.blue .stat-number { color: var(--info); }
+  .stat-card.green .stat-number { color: var(--success); }
+  .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+
+  .todo-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .todo-header h3 { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .todo-header h3::before { content: ''; display: inline-block; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
+  .todo-meta { font-size: 11px; color: var(--text-muted); }
+  .todo-meta span { color: var(--accent); font-weight: 600; }
+  .todo-filters { display: flex; gap: 4px; }
+  .todo-filter { padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 500; color: var(--text-secondary); cursor: pointer; border: 1px solid transparent; background: transparent; }
+  .todo-filter.active { background: var(--accent-dim); color: var(--accent); border-color: rgba(255,230,0,0.15); }
+  .todo-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
+  .todo-table thead th { padding: 8px 12px; text-align: left; font-weight: 500; color: var(--text-muted); font-size: 11px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .todo-table tbody td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--text-secondary); }
+  .todo-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .todo-badge.teq { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+  .todo-badge.long { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+  .todo-assignee { display: flex; align-items: center; gap: 6px; }
+  .todo-assignee-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--glass-light); display: flex; align-items: center; justify-content: center; font-size: 11px; }
+  .todo-go { width: 24px; height: 24px; border-radius: 50%; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+
+  .watermark { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; z-index: 100; pointer-events: none; }
+  .watermark span { color: var(--accent); font-weight: 600; }
+
+  .label-tag { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: 600; margin-left: 10px; letter-spacing: 0.3px; }
+  .label-tag.light { background: rgba(255,255,255,0.85); color: #333; border: 1px solid rgba(255,255,255,0.3); }
+  .label-tag.glass { background: rgba(255,230,0,0.15); color: var(--accent); border: 1px solid rgba(255,230,0,0.2); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-logo">EY</div>
+    <div class="sidebar-icon" title="Home">🏠</div>
+    <div class="sidebar-icon active" title="Dashboard">📊</div>
+    <div class="sidebar-icon" title="Clients">👥</div>
+    <div class="sidebar-icon" title="Analytics">⭐</div>
+    <div class="sidebar-icon" title="Tools">🔧</div>
+    <div class="sidebar-icon" title="Workflow">⚡</div>
+    <div class="sidebar-icon" title="Reports">📋</div>
+    <div class="sidebar-icon" title="Settings">💬</div>
+    <div style="flex:1"></div>
+    <div class="sidebar-icon" title="Alerts" style="color:#ef4444;">🔴</div>
+  </nav>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span style="font-size:18px;cursor:pointer;color:var(--text-secondary)">☰</span>
+        <span class="topbar-title">TAXTRON Dashboard</span>
+        <span class="label-tag light">AG Grid Alpine</span>
+        <span class="label-tag glass">Glass UI</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-btn">🏠</div>
+        <div class="topbar-btn">⊞</div>
+        <div class="topbar-btn">🖥</div>
+        <div class="topbar-btn">⤢</div>
+        <div class="topbar-btn" style="position:relative;">🔔<span class="topbar-badge">9</span></div>
+        <div class="topbar-avatar">연</div>
+        <span class="topbar-user">연진우</span>
+      </div>
+    </header>
+
+    <div class="tabs-bar">
+      <div class="tab active">선택이동</div>
+      <div class="tab">법인정보</div>
+      <div class="tab">정산결과</div>
+      <div class="tab">결과조회</div>
+      <div class="tab">정산승인</div>
+      <div class="tab">전산매체</div>
+      <div class="tab">서식조회</div>
+    </div>
+
+    <div class="content">
+      <div class="content-left">
+        <div class="section-header">
+          <h2>내 법인 정보</h2>
+          <div class="refresh-btn">↻</div>
+        </div>
+        <div class="grid-wrapper">
+          <div id="myGrid" class="ag-theme-alpine" style="width:100%;height:100%;"></div>
+        </div>
+      </div>
+
+      <div class="content-right">
+        <div>
+          <div class="section-header"><h2>국문질문지 문의 현황</h2></div>
+          <div class="stat-cards">
+            <div class="stat-card glass-subtle orange"><div class="stat-number">0건</div><div class="stat-label">미답변 (임시저장)</div></div>
+            <div class="stat-card glass-subtle blue"><div class="stat-number">10건</div><div class="stat-label">답변완료</div></div>
+            <div class="stat-card glass-subtle green"><div class="stat-number">62시간</div><div class="stat-label">평균 답변시간</div></div>
+          </div>
+        </div>
+
+        <div class="glass glow-yellow" style="padding: 20px; flex:1;">
+          <div class="todo-header">
+            <h3>To Do List</h3>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="todo-meta">요청 : <span>2건</span> | Total : <span>56건</span></span>
+              <div class="todo-filters">
+                <div class="todo-filter active">전체</div>
+                <div class="todo-filter">요청</div>
+                <div class="todo-filter">장기</div>
+                <div class="todo-filter">Teq</div>
+              </div>
+            </div>
+          </div>
+          <table class="todo-table">
+            <thead><tr><th>법인명</th><th>신고구분</th><th>대상자</th><th>요청일시</th><th>이동</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--text-primary);font-weight:500;">Hyundai Capital ...</td>
+                <td><span class="todo-badge teq">TEQ 1</span></td>
+                <td><div class="todo-assignee"><span class="todo-assignee-icon">💻</span>최윤서</div></td>
+                <td>26-01-22 23:00</td>
+                <td><div class="todo-go">➜</div></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-primary);font-weight:500;">Tesla</td>
+                <td><span class="todo-badge long">장기신고</span></td>
+                <td><div class="todo-assignee"><span class="todo-assignee-icon">📱</span>박성현</div></td>
+                <td>26-02-27 11:47</td>
+                <td><div class="todo-go">➜</div></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;text-align:right;font-size:11px;color:var(--text-muted);">Rows: 2 | Total Rows: 2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="watermark">AG Grid Alpine (Light) + <span>Liquid Glass UI</span></div>
+
+<script>
+const rowData = [
+  { name: 'ASML Netherlands B.V.', normal: 138, nfr: 0, ready: 138, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'IBM Corporation', normal: 113, nfr: 0, ready: 113, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Applied Materials Inc.', normal: 109, nfr: 0, ready: 109, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Northrop Grumman', normal: 89, nfr: 0, ready: 89, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'British-American Tobacco', normal: 67, nfr: 0, ready: 67, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'NIKE, Inc.', normal: 63, nfr: 0, ready: 62, done: 1, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Corning Inc', normal: 38, nfr: 0, ready: 38, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Honeywell International', normal: 37, nfr: 0, ready: 37, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Schaeffler AG', normal: 37, nfr: 0, ready: 37, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Mercedes-Benz Group', normal: 31, nfr: 0, ready: 31, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Red Hat, Inc.', normal: 25, nfr: 0, ready: 25, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'SMFG', normal: 25, nfr: 0, ready: 25, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Otis Elevator Company', normal: 22, nfr: 0, ready: 22, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Bayerische Motoren Werke', normal: 21, nfr: 0, ready: 21, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Black & Veatch Holdings', normal: 18, nfr: 0, ready: 18, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'KLA Corporation', normal: 16, nfr: 0, ready: 16, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Merck & Co. Inc.', normal: 15, nfr: 0, ready: 15, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Woodside', normal: 15, nfr: 0, ready: 15, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Xiaomi', normal: 15, nfr: 0, ready: 15, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Novo Nordisk Pharma', normal: 14, nfr: 0, ready: 14, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Estee Lauder Inc', normal: 13, nfr: 0, ready: 13, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'GlaxoSmithKline Services', normal: 12, nfr: 0, ready: 12, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'Nokia Networks', normal: 12, nfr: 0, ready: 12, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'ADEKA CORPORATION', normal: 11, nfr: 0, ready: 10, done: 1, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+  { name: 'The Boston Consulting Group', normal: 11, nfr: 0, ready: 11, done: 0, closed: 0, pct: 0, gen: 0, report: 0, rpct: 0 },
+];
+
+const pinnedBottom = [{
+  name: '합 계', normal: 1245, nfr: 3, ready: 1219, done: 26, closed: 0, pct: 0.20, gen: 0, report: 0, rpct: 0
+}];
+
+const columnDefs = [
+  {
+    field: 'name', headerName: '법인명', minWidth: 220, pinned: 'left',
+    filter: 'agTextColumnFilter', floatingFilter: true, sortable: true,
+  },
+  {
+    headerName: '대상자',
+    children: [
+      { field: 'normal', headerName: '일반', width: 80, sortable: true, type: 'numericColumn' },
+      { field: 'nfr', headerName: 'NFR', width: 70, sortable: true, type: 'numericColumn' },
+    ]
+  },
+  {
+    headerName: '정산상태',
+    children: [
+      { field: 'ready', headerName: '정산준비', width: 95, sortable: true, type: 'numericColumn' },
+      { field: 'done', headerName: '정산완료', width: 95, sortable: true, type: 'numericColumn' },
+      { field: 'closed', headerName: '마감', width: 70, sortable: true, type: 'numericColumn' },
+    ]
+  },
+  {
+    headerName: '전산매체',
+    children: [
+      { field: 'pct', headerName: '마감비율', width: 100, sortable: true, type: 'numericColumn', valueFormatter: p => p.value + '%' },
+      { field: 'gen', headerName: '생성', width: 70, sortable: true, type: 'numericColumn' },
+      { field: 'report', headerName: '신고', width: 70, sortable: true, type: 'numericColumn' },
+      { field: 'rpct', headerName: '신고비율', width: 100, sortable: true, type: 'numericColumn', valueFormatter: p => p.value + '%' },
+    ]
+  }
+];
+
+const gridOptions = {
+  columnDefs,
+  rowData,
+  defaultColDef: { resizable: true },
+  pinnedBottomRowData: pinnedBottom,
+  animateRows: true,
+  rowHeight: 38,
+  headerHeight: 34,
+  groupHeaderHeight: 34,
+  suppressCellFocus: true,
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const gridDiv = document.querySelector('#myGrid');
+  agGrid.createGrid(gridDiv, gridOptions);
+});
+</script>
+
+</body>
+</html>

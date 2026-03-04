@@ -141,10 +141,12 @@ export interface TabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   leftIcon?: React.ReactNode;
   /** 오른쪽 아이콘 */
   rightIcon?: React.ReactNode;
+  /** 오른쪽 상단 카운터 뱃지 (숫자 또는 문자열) */
+  badge?: React.ReactNode;
 }
 
 export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
-  ({ value, leftIcon, rightIcon, disabled, className, children, ...rest }, ref) => {
+  ({ value, leftIcon, rightIcon, badge, disabled, className, children, ...rest }, ref) => {
     const { activeValue, setActiveValue, variant, size, idPrefix } = useTabsContext();
     const isActive = activeValue === value;
 
@@ -208,6 +210,9 @@ export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
         {leftIcon && <span className={styles.icon}>{leftIcon}</span>}
         {children && <span className={styles.label}>{children}</span>}
         {rightIcon && <span className={styles.icon}>{rightIcon}</span>}
+        {badge !== undefined && badge !== null && (
+          <span className={styles.badge}>{badge}</span>
+        )}
       </button>
     );
   }

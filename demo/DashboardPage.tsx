@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Button } from '@lib/components/Button';
 import { Input } from '@lib/components/Input';
@@ -31,6 +31,7 @@ import '@lib/components/Modal/Modal.module.css';
 import '@lib/components/Tabs/Tabs.module.css';
 import '@lib/components/Dropdown/Dropdown.module.css';
 import '@lib/themes/ey.css';
+import '@lib/themes/light.css';
 
 /* ── Page data ────────────────────────────── */
 const stats = [
@@ -65,15 +66,52 @@ const projects = [
   { name: 'Design System', progress: 60, status: 'In Progress', dueDate: 'Mar 20' },
 ];
 
+/* ── Theme helpers ────────────────────────── */
+type ThemeName = 'default' | 'ey' | 'light';
+
+function getThemeColors(theme: ThemeName) {
+  const isLight = theme === 'light';
+  const fg = isLight ? '46, 46, 56' : '255, 255, 255';
+  const accentColor = theme === 'default' ? '#a78bfa' : '#C8B400';
+  const bg = isLight
+    ? 'linear-gradient(135deg, #f5f3ee 0%, #eceae2 50%, #e8e4da 100%)'
+    : theme === 'ey'
+      ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
+      : 'linear-gradient(135deg, #0f0a1e 0%, #1a1035 50%, #0d1b2a 100%)';
+  const textColor = isLight ? '#2E2E38' : '#fff';
+
+  return {
+    isLight, fg, accentColor, bg, textColor,
+    textSecondary: `rgba(${fg}, 0.4)`,
+    textMuted: `rgba(${fg}, 0.3)`,
+    border: `rgba(${fg}, 0.06)`,
+    borderSubtle: `rgba(${fg}, 0.04)`,
+    surfaceBg: `rgba(${fg}, 0.02)`,
+    surfaceHover: `rgba(${fg}, 0.04)`,
+    statusDotBorder: isLight ? '#f5f3ee' : '#1a1035',
+  };
+}
+
 /* ── Component ──────────────────────────── */
-export function DashboardPage() {
-  const [theme, setTheme] = useState<'default' | 'ey'>('default');
+export function DashboardPage({ initialTheme = 'default' as ThemeName }) {
+  const [theme, setTheme] = useState<ThemeName>(initialTheme);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeNav, setActiveNav] = useState('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const accentColor = theme === 'ey' ? '#FFE600' : '#a78bfa';
+  // body 클래스를 테마에 따라 변경
+  useEffect(() => {
+    document.body.classList.remove('theme-ey', 'theme-light');
+    if (theme !== 'default') {
+      document.body.classList.add(`theme-${theme}`);
+    }
+    return () => {
+      document.body.classList.remove('theme-ey', 'theme-light');
+    };
+  }, [theme]);
+
+  const c = getThemeColors(theme);
 
   return (
     <ThemeProvider theme={theme}>
@@ -82,10 +120,8 @@ export function DashboardPage() {
         inset: 0,
         display: 'flex',
         flexDirection: 'column',
-        background: theme === 'ey'
-          ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
-          : 'linear-gradient(135deg, #0f0a1e 0%, #1a1035 50%, #0d1b2a 100%)',
-        color: '#fff',
+        background: c.bg,
+        color: c.textColor,
         fontFamily: "'Inter', -apple-system, sans-serif",
         overflow: 'hidden',
       }}>
@@ -98,7 +134,7 @@ export function DashboardPage() {
               <button
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                 style={{
-                  background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)',
+                  background: 'none', border: 'none', color: `rgba(${c.fg}, 0.6)`,
                   cursor: 'pointer', fontSize: 18, padding: '4px 8px', borderRadius: 6,
                 }}
               >
@@ -106,7 +142,7 @@ export function DashboardPage() {
               </button>
               <span style={{ fontSize: 18 }}>💎</span>
               <strong style={{ fontSize: 15, letterSpacing: '-0.02em' }}>Liquid Glass</strong>
-              <Badge variant="ghost" size="sm" style={{ opacity: 0.5 }}>v0.4.0</Badge>
+              <Badge variant="ghost" size="sm" style={{ opacity: 0.5 }}>v0.5.0</Badge>
             </Stack>
           }
           trailing={
@@ -125,7 +161,7 @@ export function DashboardPage() {
                   showChevron={false}
                   style={{
                     background: 'none', border: 'none', cursor: 'pointer',
-                    fontSize: 16, padding: '4px 8px', color: 'rgba(255,255,255,0.6)',
+                    fontSize: 16, padding: '4px 8px', color: `rgba(${c.fg}, 0.6)`,
                     position: 'relative', boxShadow: 'none', backdropFilter: 'none',
                   }}
                 >
@@ -144,24 +180,34 @@ export function DashboardPage() {
                 </DropdownMenu>
               </Dropdown>
 
-              <Stack direction="horizontal" gap="sm" align="center" style={{
-                padding: '4px 8px', borderRadius: 8,
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.06)',
+              {/* Theme switcher */}
+              <div style={{
+                display: 'flex', gap: 2, padding: 2, borderRadius: 8,
+                background: `rgba(${c.fg}, 0.04)`,
+                border: `1px solid rgba(${c.fg}, 0.06)`,
               }}>
-                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>Theme</span>
-                <Toggle
-                  checked={theme === 'ey'}
-                  onChange={(v) => setTheme(v ? 'ey' : 'default')}
-                  size="sm"
-                />
-              </Stack>
+                {(['default', 'ey', 'light'] as ThemeName[]).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTheme(t)}
+                    style={{
+                      padding: '3px 10px', border: 'none', borderRadius: 6,
+                      fontSize: 10, fontWeight: 500, fontFamily: 'inherit',
+                      color: theme === t ? `rgba(${c.fg}, 0.9)` : `rgba(${c.fg}, 0.4)`,
+                      background: theme === t ? `rgba(${c.fg}, 0.1)` : 'transparent',
+                      cursor: 'pointer', transition: 'all 0.15s',
+                    }}
+                  >
+                    {t === 'default' ? 'Default' : t === 'ey' ? 'EY' : 'Light'}
+                  </button>
+                ))}
+              </div>
 
               <button
                 onClick={() => setSettingsOpen(true)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 16, padding: '4px 8px', color: 'rgba(255,255,255,0.6)',
+                  fontSize: 16, padding: '4px 8px', color: `rgba(${c.fg}, 0.6)`,
                 }}
               >
                 ⚙️
@@ -169,8 +215,8 @@ export function DashboardPage() {
 
               <div style={{
                 width: 32, height: 32, borderRadius: '50%',
-                background: `linear-gradient(135deg, ${accentColor}40, ${accentColor}20)`,
-                border: `1.5px solid ${accentColor}60`,
+                background: `linear-gradient(135deg, ${c.accentColor}40, ${c.accentColor}20)`,
+                border: `1.5px solid ${c.accentColor}60`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 13, fontWeight: 700, cursor: 'pointer',
               }}>
@@ -215,19 +261,19 @@ export function DashboardPage() {
 
             {!sidebarCollapsed && (
               <div style={{ padding: '16px 12px', marginTop: 'auto' }}>
-                <Card size="sm" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <Card size="sm" style={{ background: `rgba(${c.fg}, 0.03)` }}>
                   <CardBody>
                     <div style={{ fontSize: 11, fontWeight: 600, marginBottom: 4 }}>Free Plan</div>
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', marginBottom: 8 }}>
+                    <div style={{ fontSize: 10, color: c.textSecondary, marginBottom: 8 }}>
                       3 of 5 projects used
                     </div>
                     <div style={{
-                      height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.06)',
+                      height: 4, borderRadius: 2, background: `rgba(${c.fg}, 0.06)`,
                       overflow: 'hidden',
                     }}>
                       <div style={{
                         width: '60%', height: '100%', borderRadius: 2,
-                        background: accentColor,
+                        background: c.accentColor,
                       }} />
                     </div>
                     <Button size="sm" variant="ghost" style={{ marginTop: 8, width: '100%', fontSize: 11 }}>
@@ -255,7 +301,7 @@ export function DashboardPage() {
                    activeNav === 'messages' ? 'Messages' :
                    activeNav === 'settings' ? 'Settings' : 'Help'}
                 </h1>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '4px 0 0' }}>
+                <p style={{ fontSize: 13, color: c.textSecondary, margin: '4px 0 0' }}>
                   Welcome back, Jinu. Here's what's happening today.
                 </p>
               </div>
@@ -279,7 +325,7 @@ export function DashboardPage() {
               {stats.map((stat) => (
                 <Card key={stat.label} hoverable size="sm" style={{ flex: 1, minWidth: 180 }}>
                   <CardBody>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                    <div style={{ fontSize: 11, color: c.textSecondary, textTransform: 'uppercase', letterSpacing: 1 }}>
                       {stat.label}
                     </div>
                     <div style={{ fontSize: 28, fontWeight: 800, marginTop: 6, letterSpacing: '-0.03em' }}>
@@ -317,9 +363,9 @@ export function DashboardPage() {
                   {/* Chart placeholder */}
                   <div style={{
                     height: 200,
-                    background: `linear-gradient(180deg, ${accentColor}08 0%, transparent 100%)`,
+                    background: `linear-gradient(180deg, ${c.accentColor}08 0%, transparent 100%)`,
                     borderRadius: 12,
-                    border: '1px solid rgba(255,255,255,0.04)',
+                    border: `1px solid ${c.borderSubtle}`,
                     display: 'flex',
                     alignItems: 'flex-end',
                     padding: '0 16px 16px',
@@ -330,8 +376,8 @@ export function DashboardPage() {
                         flex: 1,
                         height: `${h}%`,
                         borderRadius: '4px 4px 0 0',
-                        background: `linear-gradient(180deg, ${accentColor}${i === 11 ? '80' : '30'} 0%, ${accentColor}10 100%)`,
-                        border: `1px solid ${accentColor}${i === 11 ? '40' : '15'}`,
+                        background: `linear-gradient(180deg, ${c.accentColor}${i === 11 ? '80' : '30'} 0%, ${c.accentColor}10 100%)`,
+                        border: `1px solid ${c.accentColor}${i === 11 ? '40' : '15'}`,
                         transition: 'all 0.3s',
                       }} />
                     ))}
@@ -346,12 +392,12 @@ export function DashboardPage() {
                       <div key={project.name} style={{
                         display: 'flex', alignItems: 'center', gap: 12,
                         padding: '10px 12px', borderRadius: 10,
-                        background: 'rgba(255,255,255,0.02)',
-                        border: '1px solid rgba(255,255,255,0.04)',
+                        background: c.surfaceBg,
+                        border: `1px solid ${c.borderSubtle}`,
                       }}>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontSize: 13, fontWeight: 600 }}>{project.name}</div>
-                          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>
+                          <div style={{ fontSize: 11, color: c.textSecondary, marginTop: 2 }}>
                             Due: {project.dueDate}
                           </div>
                         </div>
@@ -365,18 +411,18 @@ export function DashboardPage() {
                         <div style={{ width: 80 }}>
                           <div style={{
                             height: 6, borderRadius: 3,
-                            background: 'rgba(255,255,255,0.06)',
+                            background: `rgba(${c.fg}, 0.06)`,
                             overflow: 'hidden',
                           }}>
                             <div style={{
                               width: `${project.progress}%`,
                               height: '100%',
                               borderRadius: 3,
-                              background: project.progress > 90 ? '#22c55e' : accentColor,
+                              background: project.progress > 90 ? '#22c55e' : c.accentColor,
                               transition: 'width 0.5s ease',
                             }} />
                           </div>
-                          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', marginTop: 3, textAlign: 'right' }}>
+                          <div style={{ fontSize: 10, color: c.textSecondary, marginTop: 3, textAlign: 'right' }}>
                             {project.progress}%
                           </div>
                         </div>
@@ -398,16 +444,16 @@ export function DashboardPage() {
                       {activities.map((item, i) => (
                         <div key={i} style={{
                           display: 'flex', gap: 10, padding: '10px 0',
-                          borderBottom: i < activities.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                          borderBottom: i < activities.length - 1 ? `1px solid ${c.borderSubtle}` : 'none',
                         }}>
                           <span style={{ fontSize: 16, lineHeight: 1 }}>{item.icon}</span>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ fontSize: 12, fontWeight: 500 }}>{item.text}</div>
-                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>
+                            <div style={{ fontSize: 11, color: c.textSecondary, marginTop: 2 }}>
                               {item.detail}
                             </div>
                           </div>
-                          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', whiteSpace: 'nowrap' }}>
+                          <div style={{ fontSize: 10, color: c.textMuted, whiteSpace: 'nowrap' }}>
                             {item.time}
                           </div>
                         </div>
@@ -429,8 +475,8 @@ export function DashboardPage() {
                         }}>
                           <div style={{
                             width: 32, height: 32, borderRadius: '50%',
-                            background: `linear-gradient(135deg, ${accentColor}30, ${accentColor}10)`,
-                            border: `1.5px solid ${accentColor}40`,
+                            background: `linear-gradient(135deg, ${c.accentColor}30, ${c.accentColor}10)`,
+                            border: `1.5px solid ${c.accentColor}40`,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             fontSize: 12, fontWeight: 700, position: 'relative',
                           }}>
@@ -438,14 +484,14 @@ export function DashboardPage() {
                             <span style={{
                               position: 'absolute', bottom: -1, right: -1,
                               width: 9, height: 9, borderRadius: '50%',
-                              border: '2px solid #1a1035',
+                              border: `2px solid ${c.statusDotBorder}`,
                               background: member.status === 'online' ? '#22c55e' :
                                          member.status === 'away' ? '#eab308' : '#6b7280',
                             }} />
                           </div>
                           <div style={{ flex: 1 }}>
                             <div style={{ fontSize: 12, fontWeight: 600 }}>{member.name}</div>
-                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>{member.role}</div>
+                            <div style={{ fontSize: 10, color: c.textSecondary }}>{member.role}</div>
                           </div>
                         </div>
                       ))}
@@ -470,7 +516,7 @@ export function DashboardPage() {
               <Stack direction="horizontal" align="center">
                 <span style={{ fontSize: 13 }}>Dark Mode</span>
                 <Spacer />
-                <Toggle checked={true} onChange={() => {}} size="sm" />
+                <Toggle checked={theme !== 'light'} onChange={(v) => setTheme(v ? 'default' : 'light')} size="sm" />
               </Stack>
               <Stack direction="horizontal" align="center">
                 <span style={{ fontSize: 13 }}>Notifications</span>
@@ -491,13 +537,13 @@ export function DashboardPage() {
           onClick={() => window.location.hash = '#/'}
           style={{
             position: 'fixed', bottom: 16, right: 16,
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: `rgba(${c.fg}, 0.06)`,
+            border: `1px solid rgba(${c.fg}, 0.1)`,
             backdropFilter: 'blur(16px)',
             borderRadius: 10,
             padding: '8px 16px',
             fontSize: 12,
-            color: 'rgba(255,255,255,0.5)',
+            color: `rgba(${c.fg}, 0.5)`,
             textDecoration: 'none',
             zIndex: 100,
             transition: 'all 0.2s',

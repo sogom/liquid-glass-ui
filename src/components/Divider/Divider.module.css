@@ -1,6 +1,5 @@
 /* ── Divider ────────────────────────────────────── */
 .divider {
-  --divider-color: 255, 255, 255;
   --divider-thickness: 1px;
 
   flex-shrink: 0;
@@ -19,24 +18,24 @@
 
 /* ── Variant: solid ── */
 .variant-solid.horizontal {
-  background: rgba(var(--divider-color), 0.1);
+  background: rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.1);
 }
 
 .variant-solid.vertical {
-  background: rgba(var(--divider-color), 0.1);
+  background: rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.1);
 }
 
 /* ── Variant: dashed ── */
 .variant-dashed.horizontal {
   background: none;
   height: 0;
-  border-top: var(--divider-thickness) dashed rgba(var(--divider-color), 0.15);
+  border-top: var(--divider-thickness) dashed rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.15);
 }
 
 .variant-dashed.vertical {
   background: none;
   width: 0;
-  border-left: var(--divider-thickness) dashed rgba(var(--divider-color), 0.15);
+  border-left: var(--divider-thickness) dashed rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.15);
 }
 
 /* ── Variant: gradient ── */
@@ -44,7 +43,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(var(--divider-color), 0.25),
+    rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.25),
     transparent
   );
 }
@@ -53,7 +52,7 @@
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(var(--divider-color), 0.25),
+    rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.25),
     transparent
   );
 }
@@ -75,27 +74,27 @@
 
 /* 라벨 variant에 따른 line 스타일 */
 .withLabel.variant-solid .line {
-  background: rgba(var(--divider-color), 0.1);
+  background: rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.1);
 }
 
 .withLabel.variant-dashed .line {
   background: none;
   height: 0;
-  border-top: var(--divider-thickness, 1px) dashed rgba(var(--divider-color), 0.15);
+  border-top: var(--divider-thickness, 1px) dashed rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.15);
 }
 
 .withLabel.variant-gradient .line {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(var(--divider-color), 0.25)
+    rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.25)
   );
 }
 
 .withLabel.variant-gradient .line:last-of-type {
   background: linear-gradient(
     90deg,
-    rgba(var(--divider-color), 0.25),
+    rgba(var(--divider-color, var(--lg-fg, 255, 255, 255)),0.25),
     transparent
   );
 }
@@ -106,7 +105,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(var(--lg-fg, 255, 255, 255), 0.4);
   white-space: nowrap;
   flex-shrink: 0;
 }

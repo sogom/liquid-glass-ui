@@ -13,8 +13,10 @@ function Router() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  if (route === '#/dashboard') {
-    return <DashboardPage />;
+  if (route.startsWith('#/dashboard')) {
+    const params = new URLSearchParams(route.split('?')[1] || '');
+    const theme = (params.get('theme') || 'default') as 'default' | 'ey' | 'light';
+    return <DashboardPage initialTheme={theme} />;
   }
 
   return <App />;

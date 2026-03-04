@@ -1,0 +1,81 @@
+/* ══════════════════════════════════════════════════
+   Liquid Glass UI — Light Theme
+
+   AG Grid ag-theme-alpine 등 라이트 UI에 맞춘 글래스 테마.
+   밝은 배경 위에 흰색 반투명 glass를 조합합니다.
+
+   EY Brand Colors:
+     Primary Yellow:  #FFE600 → RGB 255, 230, 0
+     Dark:            #2E2E38 → RGB 46, 46, 56
+     Gray:            #747480 → RGB 116, 116, 128
+     White:           #FFFFFF
+
+   권장 배경:
+     밝은 그라데이션 또는 단색 (#f5f5f0, #eceae2 등)
+   ══════════════════════════════════════════════════ */
+
+[data-theme="light"] {
+  /* ── Global Foreground Token ── */
+  /* 텍스트·보더 등 전경색 RGB 값 (dark: 255,255,255 → light: 46,46,56) */
+  --lg-fg: 46, 46, 56;
+
+  /* ── Global Glass ── */
+  --glass-blur: 18px;
+  --glass-bg-opacity: 0.6;
+
+  /* ── Button ── */
+  /* accent 버튼: EY 다크 배경 + yellow glow 포인트 */
+  --glass-accent-color: 46, 46, 56;
+
+  /* ── Badge ── */
+  /* accent badge에 EY yellow-dark 톤 */
+  --badge-color: 180, 160, 0;
+
+  /* ── Toggle ── */
+  /* active 상태에 EY yellow 포인트 */
+  --toggle-active-color: 200, 180, 0;
+
+  /* ── Tabs ── */
+  /* active 탭 인디케이터에 EY yellow-dark 포인트 */
+  --tabs-accent: 180, 160, 0;
+
+  /* ── Card ── */
+  --card-glow-color: 200, 180, 0;
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-border: rgba(46, 46, 56, 0.1);
+  --card-outline-bg: rgba(255, 255, 255, 0.35);
+  --card-outline-border: rgba(46, 46, 56, 0.12);
+  --card-outline-hover-border: rgba(46, 46, 56, 0.25);
+
+  /* ── Modal ── */
+  --modal-bg: rgba(255, 255, 255, 0.82);
+
+  /* ── Tooltip ── */
+  --tooltip-bg: rgba(46, 46, 56, 0.88);
+
+  /* ── Dropdown ── */
+  --dropdown-bg: rgba(255, 255, 255, 0.88);
+  --dropdown-accent: 180, 160, 0;
+  --dropdown-trigger-border: rgba(46, 46, 56, 0.15);
+  --dropdown-trigger-bg: rgba(46, 46, 56, 0.04);
+  --dropdown-trigger-color: rgba(46, 46, 56, 0.85);
+  --dropdown-trigger-hover-bg: rgba(46, 46, 56, 0.08);
+  --dropdown-trigger-hover-border: rgba(46, 46, 56, 0.25);
+
+  /* ── AppBar ── */
+  --appbar-bg: rgba(255, 255, 255, 0.72);
+  --appbar-border: rgba(46, 46, 56, 0.08);
+
+  /* ── Sidebar ── */
+  --sidebar-bg: rgba(255, 255, 255, 0.65);
+  --sidebar-border: rgba(46, 46, 56, 0.08);
+  --sidebar-accent: 180, 160, 0;
+
+  /* ── Panel ── */
+  --panel-bg: rgba(255, 255, 255, 0.55);
+  --panel-border: rgba(46, 46, 56, 0.08);
+  --panel-accent: 180, 160, 0;
+
+  /* ── Divider ── */
+  --divider-color: 46, 46, 56;
+}

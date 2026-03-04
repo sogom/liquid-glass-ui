@@ -37,10 +37,11 @@ import '@lib/components/Sidebar/Sidebar.module.css';
 import '@lib/components/AspectRatio/AspectRatio.module.css';
 import '@lib/components/Panel/Panel.module.css';
 import '@lib/themes/ey.css';
+import '@lib/themes/light.css';
 
 /* ── Helpers ──────────────────────────────────── */
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, color: 'rgba(255,255,255,0.3)', marginTop: 20, marginBottom: 8 }}>
+  <div className="section-label" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 20, marginBottom: 8 }}>
     {children}
   </div>
 );
@@ -49,7 +50,16 @@ const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => 
    App
    ══════════════════════════════════════════════════ */
 export function App() {
-  const [theme, setTheme] = useState<'default' | 'ey'>('default');
+  const [theme, setTheme] = useState<'default' | 'ey' | 'light'>('default');
+
+  // body 클래스를 테마에 따라 변경
+  React.useEffect(() => {
+    document.body.classList.remove('theme-ey', 'theme-light');
+    if (theme !== 'default') {
+      document.body.classList.add(`theme-${theme}`);
+    }
+  }, [theme]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalSize, setModalSize] = useState<'sm' | 'md' | 'lg'>('md');
   const [toggleOn, setToggleOn] = useState(false);
@@ -105,7 +115,9 @@ export function App() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const themeLabel = theme === 'default' ? 'Default' : 'EY';
+  const themeLabel = theme === 'default' ? 'Default' : theme === 'ey' ? 'EY' : 'Light';
+  const isLight = theme === 'light';
+  const fg = isLight ? '46, 46, 56' : '255, 255, 255';
 
   return (
     <ThemeProvider theme={theme}>
@@ -122,12 +134,11 @@ export function App() {
           <a href="#install">Install</a>
         </div>
         <div className="demo-nav-right">
-          <Badge variant="outline" size="sm">{themeLabel}</Badge>
-          <Toggle
-            checked={theme === 'ey'}
-            onChange={(v) => setTheme(v ? 'ey' : 'default')}
-            size="sm"
-          />
+          <div className="theme-switcher">
+            <button className={`theme-switcher-btn${theme === 'default' ? ' active' : ''}`} onClick={() => setTheme('default')}>Default</button>
+            <button className={`theme-switcher-btn${theme === 'ey' ? ' active' : ''}`} onClick={() => setTheme('ey')}>EY</button>
+            <button className={`theme-switcher-btn${theme === 'light' ? ' active' : ''}`} onClick={() => setTheme('light')}>Light</button>
+          </div>
         </div>
       </nav>
 
@@ -147,7 +158,7 @@ export function App() {
         </h1>
         <p style={{
           fontSize: 'clamp(16px, 2.5vw, 20px)',
-          color: 'rgba(255,255,255,0.5)',
+          color: `rgba(${fg}, 0.5)`,
           maxWidth: 520,
           margin: '0 auto 36px',
         }}>
@@ -158,8 +169,8 @@ export function App() {
           <div
             onClick={() => handleCopy('npm i @_jinu/liquid-glass-ui')}
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`,
+              border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 10,
               padding: '12px 20px',
               fontFamily: "'SF Mono', 'Fira Code', monospace",
@@ -168,7 +179,7 @@ export function App() {
               display: 'flex',
               alignItems: 'center',
               gap: 10,
-              color: 'rgba(255,255,255,0.7)',
+              color: `rgba(${fg}, 0.7)`,
             }}
           >
             npm i @_jinu/liquid-glass-ui
@@ -191,7 +202,7 @@ export function App() {
       {/* ── Theme toggle banner ──────────────── */}
       <div style={{ textAlign: 'center', padding: '16px 0 0' }}>
         <Stack direction="horizontal" gap="sm" align="center" justify="center">
-          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Theme:</span>
+          <span style={{ fontSize: 13, color: `rgba(${fg}, 0.4)` }}>Theme:</span>
           <Button
             variant={theme === 'default' ? 'solid' : 'ghost'}
             size="sm"
@@ -205,6 +216,13 @@ export function App() {
             onClick={() => setTheme('ey')}
           >
             EY Theme
+          </Button>
+          <Button
+            variant={theme === 'light' ? 'solid' : 'ghost'}
+            size="sm"
+            onClick={() => setTheme('light')}
+          >
+            Light
           </Button>
         </Stack>
       </div>
@@ -251,18 +269,18 @@ export function App() {
           <SectionLabel>Interactive Playground</SectionLabel>
           <Stack direction="horizontal" gap="md" className="playground-row" style={{ alignItems: 'start' }}>
             <div className="playground-controls" style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)' }}>Controls</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)` }}>Controls</div>
               <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                 {(['solid', 'accent', 'outline', 'ghost'] as const).map(v => (
                   <button key={v} onClick={() => setBtnVariant(v)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: btnVariant === v ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: btnVariant === v ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: btnVariant === v ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: btnVariant === v ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{v}</button>
                 ))}
               </div>
@@ -270,9 +288,9 @@ export function App() {
                 {(['sm', 'md', 'lg'] as const).map(s => (
                   <button key={s} onClick={() => setBtnSize(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: btnSize === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: btnSize === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: btnSize === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: btnSize === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
@@ -280,22 +298,22 @@ export function App() {
                 {(['rounded', 'pill'] as const).map(s => (
                   <button key={s} onClick={() => setBtnShape(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: btnShape === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: btnShape === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: btnShape === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: btnShape === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
               <Toggle checked={btnGlow} onChange={setBtnGlow} size="sm" label="Glow" />
               {btnGlow && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', minWidth: 50 }}>Intensity</label>
+                  <label style={{ fontSize: 10, color: `rgba(${fg}, 0.4)`, minWidth: 50 }}>Intensity</label>
                   <input
                     type="range" min={0} max={1} step={0.1} value={btnGlowIntensity}
                     onChange={(e) => setBtnGlowIntensity(Number(e.target.value))}
-                    style={{ flex: 1, accentColor: theme === 'ey' ? '#FFE600' : '#a78bfa' }}
+                    style={{ flex: 1, accentColor: theme === 'default' ? '#a78bfa' : '#C8B400' }}
                   />
-                  <span style={{ fontSize: 11, fontWeight: 700, width: 28, textAlign: 'right', color: 'rgba(255,255,255,0.6)' }}>{btnGlowIntensity}</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, width: 28, textAlign: 'right', color: `rgba(${fg}, 0.6)` }}>{btnGlowIntensity}</span>
                 </div>
               )}
               <Toggle checked={btnLoading} onChange={setBtnLoading} size="sm" label="Loading" />
@@ -407,18 +425,18 @@ export function App() {
           <SectionLabel>Interactive Playground</SectionLabel>
           <Stack direction="horizontal" gap="md" className="playground-row" style={{ alignItems: 'start' }}>
             <div className="playground-controls" style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)' }}>Controls</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)` }}>Controls</div>
               <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                 {(['solid', 'ghost', 'outline', 'accent'] as const).map(v => (
                   <button key={v} onClick={() => setBadgeVariant(v)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: badgeVariant === v ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: badgeVariant === v ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: badgeVariant === v ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: badgeVariant === v ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{v}</button>
                 ))}
               </div>
@@ -426,9 +444,9 @@ export function App() {
                 {(['default', 'info', 'success', 'warning', 'error'] as const).map(s => (
                   <button key={s} onClick={() => setBadgeStatus(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: badgeStatus === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: badgeStatus === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: badgeStatus === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: badgeStatus === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
@@ -437,13 +455,13 @@ export function App() {
               <Toggle checked={badgeGlow} onChange={setBadgeGlow} size="sm" label="Glow" />
               {badgeGlow && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', minWidth: 50 }}>Intensity</label>
+                  <label style={{ fontSize: 10, color: `rgba(${fg}, 0.4)`, minWidth: 50 }}>Intensity</label>
                   <input
                     type="range" min={0} max={1} step={0.1} value={badgeGlowIntensity}
                     onChange={(e) => setBadgeGlowIntensity(Number(e.target.value))}
-                    style={{ flex: 1, accentColor: theme === 'ey' ? '#FFE600' : '#a78bfa' }}
+                    style={{ flex: 1, accentColor: theme === 'default' ? '#a78bfa' : '#C8B400' }}
                   />
-                  <span style={{ fontSize: 11, fontWeight: 700, width: 28, textAlign: 'right', color: 'rgba(255,255,255,0.6)' }}>{badgeGlowIntensity}</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, width: 28, textAlign: 'right', color: `rgba(${fg}, 0.6)` }}>{badgeGlowIntensity}</span>
                 </div>
               )}
             </div>
@@ -470,7 +488,7 @@ export function App() {
             <Toggle checked={toggleOn} onChange={setToggleOn} size="sm" />
             <Toggle checked={toggleOn} onChange={setToggleOn} size="md" />
             <Toggle checked={toggleOn} onChange={setToggleOn} size="lg" />
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
+            <span style={{ fontSize: 13, color: `rgba(${fg}, 0.4)` }}>
               {toggleOn ? 'ON' : 'OFF'}
             </span>
           </div>
@@ -490,18 +508,18 @@ export function App() {
           <SectionLabel>Interactive Playground</SectionLabel>
           <Stack direction="horizontal" gap="md" className="playground-row" style={{ alignItems: 'start' }}>
             <div className="playground-controls" style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)' }}>Controls</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)` }}>Controls</div>
               <div style={{ display: 'flex', gap: 4 }}>
                 {(['sm', 'md', 'lg'] as const).map(s => (
                   <button key={s} onClick={() => setPgToggleSize(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: pgToggleSize === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: pgToggleSize === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: pgToggleSize === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: pgToggleSize === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
@@ -509,9 +527,9 @@ export function App() {
                 {(['left', 'right'] as const).map(p => (
                   <button key={p} onClick={() => setPgToggleLabelPos(p)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: pgToggleLabelPos === p ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: pgToggleLabelPos === p ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: pgToggleLabelPos === p ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: pgToggleLabelPos === p ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>label: {p}</button>
                 ))}
               </div>
@@ -545,16 +563,16 @@ export function App() {
             <Tabs defaultValue="s1" variant="solid">
               <TabList>
                 <Tab value="s1">Overview</Tab>
-                <Tab value="s2">Features</Tab>
+                <Tab value="s2" badge={3}>Features</Tab>
                 <Tab value="s3" disabled>Disabled</Tab>
               </TabList>
               <TabPanel value="s1">
-                <div style={{ padding: '12px 0', color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>
+                <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
                   Solid tab — active highlight with background.
                 </div>
               </TabPanel>
               <TabPanel value="s2">
-                <div style={{ padding: '12px 0', color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>
+                <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
                   18 components, theme system, fully typed with TypeScript.
                 </div>
               </TabPanel>
@@ -562,11 +580,11 @@ export function App() {
             <Tabs defaultValue="o1" variant="outline">
               <TabList>
                 <Tab value="o1">Design</Tab>
-                <Tab value="o2">Code</Tab>
+                <Tab value="o2" badge="New">Code</Tab>
                 <Tab value="o3">Preview</Tab>
               </TabList>
               <TabPanel value="o1">
-                <div style={{ padding: '12px 0', color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>
+                <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
                   Outline — underline border-bottom indicator.
                 </div>
               </TabPanel>
@@ -574,12 +592,28 @@ export function App() {
             <Tabs defaultValue="p1" variant="pill">
               <TabList>
                 <Tab value="p1">All</Tab>
-                <Tab value="p2">Active</Tab>
+                <Tab value="p2" badge={12}>Active</Tab>
                 <Tab value="p3">Archived</Tab>
               </TabList>
               <TabPanel value="p1">
-                <div style={{ padding: '12px 0', color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>
+                <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
                   Pill — rounded pill-shaped tabs.
+                </div>
+              </TabPanel>
+            </Tabs>
+          </Stack>
+
+          <SectionLabel>With Badge</SectionLabel>
+          <Stack direction="vertical" gap="md">
+            <Tabs defaultValue="b1" variant="solid">
+              <TabList>
+                <Tab value="b1">Inbox</Tab>
+                <Tab value="b2" badge={5}>Messages</Tab>
+                <Tab value="b3" badge="99+">Notifications</Tab>
+              </TabList>
+              <TabPanel value="b1">
+                <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
+                  Badge counter appears on the top-right corner of each tab.
                 </div>
               </TabPanel>
             </Tabs>
@@ -588,18 +622,18 @@ export function App() {
           <SectionLabel>Interactive Playground</SectionLabel>
           <Stack direction="horizontal" gap="md" className="playground-row" style={{ alignItems: 'start' }}>
             <div className="playground-controls" style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)' }}>Controls</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)` }}>Controls</div>
               <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                 {(['solid', 'outline', 'pill'] as const).map(v => (
                   <button key={v} onClick={() => setPgTabVariant(v)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: pgTabVariant === v ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: pgTabVariant === v ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: pgTabVariant === v ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: pgTabVariant === v ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{v}</button>
                 ))}
               </div>
@@ -607,9 +641,9 @@ export function App() {
                 {(['sm', 'md', 'lg'] as const).map(s => (
                   <button key={s} onClick={() => setPgTabSize(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: pgTabSize === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: pgTabSize === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: pgTabSize === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: pgTabSize === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
@@ -622,12 +656,12 @@ export function App() {
                   <Tab value="pg3" disabled>Disabled</Tab>
                 </TabList>
                 <TabPanel value="pg1">
-                  <div style={{ padding: '12px 0', color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>
+                  <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
                     Tab content for Overview.
                   </div>
                 </TabPanel>
                 <TabPanel value="pg2">
-                  <div style={{ padding: '12px 0', color: 'rgba(255,255,255,0.6)', fontSize: 14 }}>
+                  <div style={{ padding: '12px 0', color: `rgba(${fg}, 0.6)`, fontSize: 14 }}>
                     Tab content for Features.
                   </div>
                 </TabPanel>
@@ -655,19 +689,19 @@ export function App() {
             <Card hoverable style={{ flex: 1, maxWidth: 220 }}>
               <CardBody>
                 <h4 style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>Solid</h4>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>Default glass card</p>
+                <p style={{ fontSize: 13, color: `rgba(${fg}, 0.5)` }}>Default glass card</p>
               </CardBody>
             </Card>
             <Card variant="outline" hoverable style={{ flex: 1, maxWidth: 220 }}>
               <CardBody>
                 <h4 style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>Outline</h4>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>Border-only variant</p>
+                <p style={{ fontSize: 13, color: `rgba(${fg}, 0.5)` }}>Border-only variant</p>
               </CardBody>
             </Card>
             <Card variant="ghost" hoverable style={{ flex: 1, maxWidth: 220 }}>
               <CardBody>
                 <h4 style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>Ghost</h4>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>Minimal background</p>
+                <p style={{ fontSize: 13, color: `rgba(${fg}, 0.5)` }}>Minimal background</p>
               </CardBody>
             </Card>
           </div>
@@ -698,7 +732,7 @@ export function App() {
                 <h4 style={{ fontSize: 16, fontWeight: 600 }}>Glow Card</h4>
               </CardHeader>
               <CardBody>
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+                <p style={{ fontSize: 14, color: `rgba(${fg}, 0.6)` }}>
                   Hover me to see the glow effect and lift animation!
                 </p>
               </CardBody>
@@ -712,18 +746,18 @@ export function App() {
           <SectionLabel>Interactive Playground</SectionLabel>
           <Stack direction="horizontal" gap="md" className="playground-row" style={{ alignItems: 'start' }}>
             <div className="playground-controls" style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)' }}>Controls</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)` }}>Controls</div>
               <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                 {(['solid', 'outline', 'ghost'] as const).map(v => (
                   <button key={v} onClick={() => setCardVariant(v)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: cardVariant === v ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: cardVariant === v ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: cardVariant === v ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: cardVariant === v ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{v}</button>
                 ))}
               </div>
@@ -731,9 +765,9 @@ export function App() {
                 {(['sm', 'md', 'lg'] as const).map(s => (
                   <button key={s} onClick={() => setCardSize(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: cardSize === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: cardSize === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: cardSize === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: cardSize === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
@@ -741,13 +775,13 @@ export function App() {
               <Toggle checked={cardGlow} onChange={setCardGlow} size="sm" label="Glow" />
               {cardGlow && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', minWidth: 50 }}>Intensity</label>
+                  <label style={{ fontSize: 10, color: `rgba(${fg}, 0.4)`, minWidth: 50 }}>Intensity</label>
                   <input
                     type="range" min={0} max={1} step={0.1} value={cardGlowIntensity}
                     onChange={(e) => setCardGlowIntensity(Number(e.target.value))}
-                    style={{ flex: 1, accentColor: theme === 'ey' ? '#FFE600' : '#a78bfa' }}
+                    style={{ flex: 1, accentColor: theme === 'default' ? '#a78bfa' : '#C8B400' }}
                   />
-                  <span style={{ fontSize: 11, fontWeight: 700, width: 28, textAlign: 'right', color: 'rgba(255,255,255,0.6)' }}>{cardGlowIntensity}</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, width: 28, textAlign: 'right', color: `rgba(${fg}, 0.6)` }}>{cardGlowIntensity}</span>
                 </div>
               )}
             </div>
@@ -757,7 +791,7 @@ export function App() {
                   <h4 style={{ fontSize: 15, fontWeight: 600 }}>Card Preview</h4>
                 </CardHeader>
                 <CardBody>
-                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+                  <p style={{ fontSize: 13, color: `rgba(${fg}, 0.6)` }}>
                     Adjust the controls to preview different card configurations.
                   </p>
                 </CardBody>
@@ -861,17 +895,17 @@ export function App() {
               <h3 style={{ fontSize: 18, fontWeight: 600 }}>
                 Glass Modal ({modalSize.toUpperCase()})
               </h3>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 4 }}>
+              <p style={{ fontSize: 13, color: `rgba(${fg}, 0.45)`, marginTop: 4 }}>
                 This is a {modalSize === 'sm' ? 'compact' : modalSize === 'md' ? 'standard' : 'wide'} modal with glass effects
               </p>
             </ModalHeader>
             <ModalBody>
               <Stack direction="vertical" gap="sm">
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>
+                <p style={{ fontSize: 14, color: `rgba(${fg}, 0.7)` }}>
                   The modal supports keyboard navigation (ESC to close), focus trapping,
                   and smooth entry animations. Try the EY theme toggle to see it adapt!
                 </p>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+                <div style={{ fontSize: 12, color: `rgba(${fg}, 0.4)` }}>
                   Features: closeOnOverlay, closeOnEsc, intensity control, custom bgColor, portal target
                 </div>
               </Stack>
@@ -885,18 +919,18 @@ export function App() {
           <SectionLabel>Interactive Playground</SectionLabel>
           <Stack direction="horizontal" gap="md" className="playground-row" style={{ alignItems: 'start' }}>
             <div className="playground-controls" style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)' }}>Controls</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)` }}>Controls</div>
               <div style={{ display: 'flex', gap: 4 }}>
                 {(['sm', 'md', 'lg'] as const).map(s => (
                   <button key={s} onClick={() => setPgModalSize(s)} style={{
                     padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: pgModalSize === s ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
-                    color: pgModalSize === s ? '#fff' : 'rgba(255,255,255,0.5)',
+                    border: `1px solid rgba(${fg}, 0.12)`,
+                    background: pgModalSize === s ? `rgba(${fg}, 0.15)` : `rgba(${fg}, 0.04)`,
+                    color: pgModalSize === s ? `rgba(${fg}, 0.95)` : `rgba(${fg}, 0.5)`,
                   }}>{s}</button>
                 ))}
               </div>
@@ -931,12 +965,12 @@ export function App() {
           >
             <ModalHeader showClose>
               <h3 style={{ fontSize: 18, fontWeight: 600 }}>Playground Modal ({pgModalSize.toUpperCase()})</h3>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 4 }}>
+              <p style={{ fontSize: 13, color: `rgba(${fg}, 0.45)`, marginTop: 4 }}>
                 closeOnOverlay: {String(pgModalCloseOverlay)} · closeOnEsc: {String(pgModalCloseEsc)}
               </p>
             </ModalHeader>
             <ModalBody>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>
+              <p style={{ fontSize: 14, color: `rgba(${fg}, 0.7)` }}>
                 This modal was opened from the interactive playground.
                 Adjust the controls and open again to see different configurations!
               </p>
@@ -1046,11 +1080,11 @@ export function App() {
 
           <SectionLabel>Horizontal + Spacer</SectionLabel>
           <Stack direction="horizontal" gap="sm" wrap>
-            <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Item 1</div>
-            <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Item 2</div>
-            <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Item 3</div>
+            <div style={{ background: `rgba(${fg}, 0.06)`, padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Item 1</div>
+            <div style={{ background: `rgba(${fg}, 0.06)`, padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Item 2</div>
+            <div style={{ background: `rgba(${fg}, 0.06)`, padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Item 3</div>
             <Spacer />
-            <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Pushed Right</div>
+            <div style={{ background: `rgba(${fg}, 0.06)`, padding: '12px 20px', borderRadius: 8, fontSize: 13 }}>Pushed Right</div>
           </Stack>
 
           <SectionLabel>Vertical + Alignment</SectionLabel>
@@ -1109,54 +1143,54 @@ export function App() {
           <SectionLabel>Ratio Variants</SectionLabel>
           <div className="demo-row" style={{ alignItems: 'start' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 200 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>16:9 (Video)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>16:9 (Video)</span>
               <AspectRatio ratio={16 / 9} maxWidth="200px">
                 <div style={{
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.1)`,
                   backdropFilter: 'blur(16px)', borderRadius: 12,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
                 }}>
                   <span style={{ fontSize: 20, fontWeight: 700 }}>16:9</span>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>56.25%</span>
+                  <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)` }}>56.25%</span>
                 </div>
               </AspectRatio>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 180 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>4:3 (Photo)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>4:3 (Photo)</span>
               <AspectRatio ratio={4 / 3} maxWidth="180px">
                 <div style={{
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.1)`,
                   backdropFilter: 'blur(16px)', borderRadius: 12,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
                 }}>
                   <span style={{ fontSize: 20, fontWeight: 700 }}>4:3</span>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>75%</span>
+                  <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)` }}>75%</span>
                 </div>
               </AspectRatio>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 120 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>1:1 (Square)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>1:1 (Square)</span>
               <AspectRatio ratio={1} maxWidth="120px">
                 <div style={{
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.1)`,
                   backdropFilter: 'blur(16px)', borderRadius: 12,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
                 }}>
                   <span style={{ fontSize: 20, fontWeight: 700 }}>1:1</span>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>100%</span>
+                  <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)` }}>100%</span>
                 </div>
               </AspectRatio>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 70 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>9:16 (Story)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>9:16 (Story)</span>
               <AspectRatio ratio={9 / 16} maxWidth="70px">
                 <div style={{
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.1)`,
                   backdropFilter: 'blur(16px)', borderRadius: 12,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
                 }}>
                   <span style={{ fontSize: 14, fontWeight: 700 }}>9:16</span>
-                  <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>177.8%</span>
+                  <span style={{ fontSize: 9, color: `rgba(${fg}, 0.4)` }}>177.8%</span>
                 </div>
               </AspectRatio>
             </div>
@@ -1166,15 +1200,15 @@ export function App() {
           <div className="demo-row" style={{ alignItems: 'start' }}>
             {/* Video embed */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 300 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>Video Embed (16:9)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>Video Embed (16:9)</span>
               <AspectRatio ratio={16 / 9} maxWidth="300px">
                 <div style={{
-                  background: 'rgba(0,0,0,0.4)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)',
+                  background: isLight ? 'rgba(200,195,185,0.3)' : 'rgba(0,0,0,0.4)', borderRadius: 12, border: `1px solid rgba(${fg}, 0.08)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   <div style={{
                     width: 52, height: 52, borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.08)', border: '2px solid rgba(255,255,255,0.2)',
+                    background: `rgba(${fg}, 0.08)`, border: `2px solid rgba(${fg}, 0.2)`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 18, cursor: 'pointer', backdropFilter: 'blur(12px)',
                   }}>
@@ -1186,26 +1220,26 @@ export function App() {
 
             {/* Image thumbnail */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 180 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>Image (4:3)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>Image (4:3)</span>
               <AspectRatio ratio={4 / 3} maxWidth="180px">
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(140,130,255,0.15), rgba(60,120,200,0.2))',
-                  borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 12, border: `1px solid rgba(${fg}, 0.08)`,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
                 }}>
                   <span style={{ fontSize: 28, opacity: 0.5 }}>🏞️</span>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Image placeholder</span>
+                  <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)` }}>Image placeholder</span>
                 </div>
               </AspectRatio>
             </div>
 
             {/* Avatar */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: 90 }}>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>Avatar (1:1)</span>
+              <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1 }}>Avatar (1:1)</span>
               <AspectRatio ratio={1} maxWidth="90px">
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(140,130,255,0.2), rgba(100,80,200,0.3))',
-                  borderRadius: '50%', border: '2px solid rgba(255,255,255,0.15)',
+                  borderRadius: '50%', border: `2px solid rgba(${fg}, 0.15)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 32,
                 }}>
@@ -1217,17 +1251,17 @@ export function App() {
 
           {/* Wide banner */}
           <div style={{ marginTop: 16 }}>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>Map / Wide Banner (21:9)</span>
+            <span style={{ fontSize: 11, color: `rgba(${fg}, 0.4)`, textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>Map / Wide Banner (21:9)</span>
             <AspectRatio ratio={21 / 9} maxWidth="560px">
               <div style={{
                 background: `
-                  linear-gradient(rgba(30,25,55,0.3), rgba(30,25,55,0.3)),
-                  repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px),
-                  repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px)
+                  linear-gradient(rgba(${isLight ? '200,195,185' : '30,25,55'},0.3), rgba(${isLight ? '200,195,185' : '30,25,55'},0.3)),
+                  repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(${fg},0.03) 30px, rgba(${fg},0.03) 31px),
+                  repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(${fg},0.03) 30px, rgba(${fg},0.03) 31px)
                 `,
-                borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 12, border: `1px solid rgba(${fg}, 0.08)`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 13, color: 'rgba(255,255,255,0.4)',
+                fontSize: 13, color: `rgba(${fg}, 0.4)`,
               }}>
                 📍 Map area · 21:9 ultra-wide
               </div>
@@ -1238,32 +1272,32 @@ export function App() {
           <Stack direction="horizontal" gap="md" style={{ alignItems: 'start' }}>
             {/* Controls */}
             <div style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.08)`,
               borderRadius: 12, padding: 16, minWidth: 200,
               display: 'flex', flexDirection: 'column', gap: 12,
             }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 4 }}>Adjust Ratio</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: `rgba(${fg}, 0.6)`, marginBottom: 4 }}>Adjust Ratio</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', width: 20 }}>W</label>
+                <label style={{ fontSize: 12, color: `rgba(${fg}, 0.4)`, width: 20 }}>W</label>
                 <input
                   type="range" min={1} max={21} value={aspectW}
                   onChange={(e) => setAspectW(Number(e.target.value))}
-                  style={{ flex: 1, accentColor: theme === 'ey' ? '#FFE600' : '#a78bfa' }}
+                  style={{ flex: 1, accentColor: theme === 'default' ? '#a78bfa' : '#C8B400' }}
                 />
                 <span style={{ fontSize: 13, fontWeight: 700, width: 24, textAlign: 'right' }}>{aspectW}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', width: 20 }}>H</label>
+                <label style={{ fontSize: 12, color: `rgba(${fg}, 0.4)`, width: 20 }}>H</label>
                 <input
                   type="range" min={1} max={21} value={aspectH}
                   onChange={(e) => setAspectH(Number(e.target.value))}
-                  style={{ flex: 1, accentColor: theme === 'ey' ? '#FFE600' : '#a78bfa' }}
+                  style={{ flex: 1, accentColor: theme === 'default' ? '#a78bfa' : '#C8B400' }}
                 />
                 <span style={{ fontSize: 13, fontWeight: 700, width: 24, textAlign: 'right' }}>{aspectH}</span>
               </div>
 
               {/* Presets */}
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginTop: 4 }}>Presets</div>
+              <div style={{ fontSize: 11, color: `rgba(${fg}, 0.3)`, marginTop: 4 }}>Presets</div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {[
                   { label: '16:9', w: 16, h: 9 },
@@ -1277,9 +1311,9 @@ export function App() {
                     onClick={() => { setAspectW(p.w); setAspectH(p.h); }}
                     style={{
                       padding: '4px 10px', borderRadius: 6, fontSize: 11, fontWeight: 600,
-                      cursor: 'pointer', border: '1px solid rgba(255,255,255,0.12)',
-                      background: aspectW === p.w && aspectH === p.h ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)',
-                      color: aspectW === p.w && aspectH === p.h ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)',
+                      cursor: 'pointer', border: `1px solid rgba(${fg}, 0.12)`,
+                      background: aspectW === p.w && aspectH === p.h ? `rgba(${fg}, 0.12)` : `rgba(${fg}, 0.04)`,
+                      color: aspectW === p.w && aspectH === p.h ? `rgba(${fg}, 0.9)` : `rgba(${fg}, 0.5)`,
                     }}
                   >
                     {p.label}
@@ -1289,9 +1323,9 @@ export function App() {
 
               <div style={{
                 marginTop: 8, padding: '8px 12px', borderRadius: 8,
-                background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+                background: `rgba(${fg}, 0.03)`, border: `1px solid rgba(${fg}, 0.06)`,
                 fontFamily: "'SF Mono', 'Fira Code', monospace", fontSize: 11,
-                color: 'rgba(255,255,255,0.5)',
+                color: `rgba(${fg}, 0.5)`,
               }}>
                 ratio={`{${aspectW} / ${aspectH}}`} → {((1 / (aspectW / aspectH)) * 100).toFixed(2)}%
               </div>
@@ -1301,12 +1335,12 @@ export function App() {
             <div style={{ flex: 1, maxWidth: 360 }}>
               <AspectRatio ratio={aspectW / aspectH} maxWidth="360px">
                 <div style={{
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  background: `rgba(${fg}, 0.04)`, border: `1px solid rgba(${fg}, 0.1)`,
                   backdropFilter: 'blur(16px)', borderRadius: 12,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
                 }}>
                   <span style={{ fontSize: 28, fontWeight: 800 }}>{aspectW}:{aspectH}</span>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+                  <span style={{ fontSize: 12, color: `rgba(${fg}, 0.4)` }}>
                     padding-top: {((1 / (aspectW / aspectH)) * 100).toFixed(2)}%
                   </span>
                 </div>
@@ -1333,7 +1367,7 @@ export function App() {
                 <strong style={{ fontSize: 15 }}>Default Panel</strong>
               </PanelHeader>
               <PanelBody>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+                <p style={{ fontSize: 13, color: `rgba(${fg}, 0.6)` }}>
                   Glass effect panel with backdrop blur and subtle borders.
                 </p>
               </PanelBody>
@@ -1347,7 +1381,7 @@ export function App() {
                 <strong style={{ fontSize: 15 }}>Flat Panel</strong>
               </PanelHeader>
               <PanelBody>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+                <p style={{ fontSize: 13, color: `rgba(${fg}, 0.6)` }}>
                   Minimal variant without blur, good for nested content.
                 </p>
               </PanelBody>
@@ -1362,7 +1396,7 @@ export function App() {
             <PanelBody scroll>
               <Stack direction="vertical" gap="sm">
                 {Array.from({ length: 8 }, (_, i) => (
-                  <div key={i} style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                  <div key={i} style={{ fontSize: 13, color: `rgba(${fg}, 0.5)`, padding: '8px 0', borderBottom: `1px solid rgba(${fg}, 0.04)` }}>
                     Scrollable item #{i + 1} — Panel body with scroll overflow enabled
                   </div>
                 ))}
@@ -1394,20 +1428,20 @@ export function App() {
             variant="accent"
             size="sm"
             glow
-            onClick={() => { window.location.hash = '#/dashboard'; }}
+            onClick={() => { window.location.hash = '#/dashboard?theme=' + theme; }}
           >
             Open Standalone Dashboard →
           </Button>
         </div>
 
         <div className="dashboard-container" style={{
-          border: '1px solid rgba(255,255,255,0.08)',
+          border: `1px solid rgba(${fg}, 0.08)`,
           borderRadius: 16,
           overflow: 'hidden',
           height: 520,
           display: 'flex',
           flexDirection: 'column',
-          background: 'rgba(0,0,0,0.2)',
+          background: isLight ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
         }}>
           {/* AppBar */}
           <AppBar
@@ -1424,7 +1458,7 @@ export function App() {
                 <Input placeholder="Search..." size="sm" className="dashboard-appbar-search" style={{ width: 180 }} />
                 <div style={{
                   width: 28, height: 28, borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.1)',
+                  background: `rgba(${fg}, 0.1)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 12,
                 }}>
@@ -1497,7 +1531,7 @@ export function App() {
                       ].map((stat) => (
                         <Card key={stat.label} size="sm" style={{ flex: 1, minWidth: 100 }}>
                           <CardBody>
-                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{stat.label}</div>
+                            <div style={{ fontSize: 11, color: `rgba(${fg}, 0.4)` }}>{stat.label}</div>
                             <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4 }}>{stat.value}</div>
                             <Badge size="sm" status="success" variant="ghost" style={{ marginTop: 6 }}>
                               {stat.change}
@@ -1516,7 +1550,7 @@ export function App() {
                     <Stack direction="vertical" gap="sm">
                       {['New user registered', 'Order #1249 completed', 'Payment received', 'Report generated', 'User feedback received'].map(
                         (item, i) => (
-                          <div key={i} style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                          <div key={i} style={{ fontSize: 12, color: `rgba(${fg}, 0.5)`, padding: '8px 0', borderBottom: `1px solid rgba(${fg}, 0.04)` }}>
                             {item}
                           </div>
                         ),
@@ -1570,8 +1604,8 @@ function App() {
       <footer style={{
         textAlign: 'center',
         padding: '32px 24px',
-        borderTop: '1px solid rgba(255,255,255,0.04)',
-        color: 'rgba(255,255,255,0.3)',
+        borderTop: `1px solid rgba(${fg}, 0.04)`,
+        color: `rgba(${fg}, 0.3)`,
         fontSize: 13,
       }}>
         <p>Liquid Glass UI — Built by Jinu</p>
