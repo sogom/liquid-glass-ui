@@ -1389,6 +1389,17 @@ export function App() {
         <h2 className="section-title">Dashboard Layout</h2>
         <p className="section-subtitle">AppBar + Sidebar + Panel composing a full application layout</p>
 
+        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+          <Button
+            variant="accent"
+            size="sm"
+            glow
+            onClick={() => { window.location.hash = '#/dashboard'; }}
+          >
+            Open Standalone Dashboard →
+          </Button>
+        </div>
+
         <div className="dashboard-container" style={{
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 16,
