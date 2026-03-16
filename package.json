@@ -24,33 +24,17 @@
       "require": "./dist/liquid-glass-ui.cjs",
       "default": "./dist/liquid-glass-ui.js"
     },
-    "./style.css": "./dist/liquid-glass-ui.css",
-    "./dist/style.css": "./dist/liquid-glass-ui.css",
-    "./themes/ey.css": "./src/themes/ey.css",
-    "./themes/light.css": "./src/themes/light.css"
+    "./style.css": "./dist/style.css",
+    "./dist/style.css": "./dist/style.css",
+    "./themes/ey.css": "./themes/ey.css",
+    "./themes/light.css": "./themes/light.css"
   },
   "files": [
     "dist",
-    "src/themes/*.css",
+    "themes",
     "README.md",
     "LICENSE"
   ],
-  "typesVersions": {
-    "*": {
-      "style.css": [
-        "./dist/liquid-glass-ui.css"
-      ],
-      "dist/style.css": [
-        "./dist/liquid-glass-ui.css"
-      ],
-      "themes/ey.css": [
-        "./src/themes/ey.css"
-      ],
-      "themes/light.css": [
-        "./src/themes/light.css"
-      ]
-    }
-  },
   "sideEffects": [
     "**/*.css"
   ],

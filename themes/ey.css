@@ -1,0 +1,57 @@
+/* ══════════════════════════════════════════════════
+   Liquid Glass UI — EY (Ernst & Young) Theme
+
+   EY Brand Colors:
+     Primary Yellow:  #FFE600 → RGB 255, 230, 0
+     Dark:            #2E2E38 → RGB 46, 46, 56
+     Gray:            #747480 → RGB 116, 116, 128
+     White:           #FFFFFF
+   ══════════════════════════════════════════════════ */
+
+[data-theme="ey"] {
+  /* ── Button ── */
+  --glass-accent-color: 255, 230, 0;
+
+  /* ── Badge ── */
+  --badge-color: 255, 230, 0;
+
+  /* ── Toggle ── */
+  --toggle-active-color: 255, 230, 0;
+
+  /* ── Tabs ── */
+  --tabs-accent: 255, 230, 0;
+
+  /* ── Card ── */
+  --card-glow-color: 255, 230, 0;
+  --card-bg: rgba(46, 46, 56, 0.7);
+  --card-border: rgba(255, 230, 0, 0.15);
+  --card-outline-bg: rgba(46, 46, 56, 0.4);
+  --card-outline-border: rgba(255, 230, 0, 0.25);
+  --card-outline-hover-border: rgba(255, 230, 0, 0.5);
+
+  /* ── Modal ── */
+  --modal-bg: rgba(46, 46, 56, 0.85);
+
+  /* ── Tooltip ── */
+  --tooltip-bg: rgba(46, 46, 56, 0.85);
+
+  /* ── Dropdown ── */
+  --dropdown-bg: rgba(46, 46, 56, 0.85);
+  --dropdown-accent: 255, 230, 0;
+  --dropdown-trigger-border: rgba(255, 230, 0, 0.4);
+  --dropdown-trigger-bg: rgba(255, 230, 0, 0.06);
+  --dropdown-trigger-color: rgba(255, 230, 0, 0.9);
+  --dropdown-trigger-hover-bg: rgba(255, 230, 0, 0.12);
+  --dropdown-trigger-hover-border: rgba(255, 230, 0, 0.6);
+
+  /* ── AppBar ── */
+  --appbar-bg: rgba(46, 46, 56, 0.88);
+
+  /* ── Sidebar ── */
+  --sidebar-bg: rgba(46, 46, 56, 0.82);
+  --sidebar-accent: 255, 230, 0;
+
+  /* ── Panel ── */
+  --panel-bg: rgba(46, 46, 56, 0.7);
+  --panel-accent: 255, 230, 0;
+}
