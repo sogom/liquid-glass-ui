@@ -35,6 +35,14 @@
     "README.md",
     "LICENSE"
   ],
+  "typesVersions": {
+    "*": {
+      "style.css": ["./dist/liquid-glass-ui.css"],
+      "dist/style.css": ["./dist/liquid-glass-ui.css"],
+      "themes/ey.css": ["./src/themes/ey.css"],
+      "themes/light.css": ["./src/themes/light.css"]
+    }
+  },
   "sideEffects": [
     "**/*.css"
   ],
