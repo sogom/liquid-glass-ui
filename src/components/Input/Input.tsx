@@ -158,7 +158,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               className={`${styles.icon} ${styles.iconRight} ${styles.iconBtn}`}
               onClick={() => setShowPassword((prev) => !prev)}
               tabIndex={-1}
-              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

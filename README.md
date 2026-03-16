@@ -18,7 +18,7 @@ npm install @_jinu/liquid-glass-ui
 
 ```tsx
 // 1. 스타일 임포트
-import '@_jinu/liquid-glass-ui/dist/style.css';
+import '@_jinu/liquid-glass-ui/style.css';
 
 // 2. (선택) 테마 임포트
 import '@_jinu/liquid-glass-ui/themes/ey.css';    // EY 다크 테마

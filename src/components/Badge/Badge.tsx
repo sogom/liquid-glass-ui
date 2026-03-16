@@ -161,7 +161,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
               onClose?.(e);
             }}
             tabIndex={-1}
-            aria-label="닫기"
+            aria-label="Close"
           >
             <svg
               width="10"

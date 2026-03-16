@@ -26,6 +26,7 @@ export default defineConfig({
       },
     },
     cssCodeSplit: false,
+    copyPublicDir: false,
   },
   test: {
     include: ['src/**/*.test.{ts,tsx}'],

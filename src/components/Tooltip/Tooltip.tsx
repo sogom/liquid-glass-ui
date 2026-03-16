@@ -96,18 +96,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const blurValue = `${Math.round(20 * intensity)}px`;
 
-  const triggerProps: Record<string, unknown> = {
-    'aria-describedby': isOpen ? tooltipId : undefined,
-  };
-
-  if (trigger === 'hover') {
-    triggerProps.onMouseEnter = show;
-    triggerProps.onMouseLeave = hide;
-    triggerProps.onFocus = show;
-    triggerProps.onBlur = hide;
-  } else {
-    triggerProps.onClick = toggle;
-  }
+  const hoverHandlers = trigger === 'hover'
+    ? { onMouseEnter: show, onMouseLeave: hide, onFocus: show, onBlur: hide }
+    : { onClick: toggle };
 
   const tooltipClass = [
     styles.tooltip,
@@ -122,7 +113,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
       className={styles.wrapper}
       {...(trigger === 'hover' ? { onMouseEnter: show, onMouseLeave: hide } : {})}
     >
-      {React.cloneElement(children, triggerProps)}
+      <span
+        aria-describedby={isOpen ? tooltipId : undefined}
+        {...hoverHandlers}
+        style={{ display: 'contents' }}
+      >
+        {children}
+      </span>
 
       <div
         id={tooltipId}

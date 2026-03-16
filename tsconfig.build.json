@@ -13,5 +13,5 @@
     "declarationDir": "./dist"
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.*", "src/**/*.stories.*"]
+  "exclude": ["src/**/*.test.*", "src/**/*.stories.*", "src/main.tsx"]
 }

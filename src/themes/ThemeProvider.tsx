@@ -42,13 +42,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 }) => {
   return (
     <ThemeContext.Provider value={theme}>
-      <div
-        data-theme={theme === 'default' ? undefined : theme}
-        style={{ display: 'contents', ...style }}
-        {...rest}
-      >
-        {children}
-      </div>
+      {theme === 'default' ? (
+        children
+      ) : (
+        <div
+          data-theme={theme}
+          style={{ display: 'contents', ...style }}
+          {...rest}
+        >
+          {children}
+        </div>
+      )}
     </ThemeContext.Provider>
   );
 };

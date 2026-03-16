@@ -169,7 +169,7 @@ export const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(
             type="button"
             className={styles.closeBtn}
             onClick={onClose}
-            aria-label="닫기"
+            aria-label="Close"
           >
             <svg
               width="14"
