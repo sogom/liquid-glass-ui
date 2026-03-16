@@ -1,6 +1,6 @@
 {
   "name": "@_jinu/liquid-glass-ui",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "type": "module",
   "description": "Apple Liquid Glass inspired React UI components with glassmorphism effects",
   "keywords": [
@@ -37,10 +37,18 @@
   ],
   "typesVersions": {
     "*": {
-      "style.css": ["./dist/liquid-glass-ui.css"],
-      "dist/style.css": ["./dist/liquid-glass-ui.css"],
-      "themes/ey.css": ["./src/themes/ey.css"],
-      "themes/light.css": ["./src/themes/light.css"]
+      "style.css": [
+        "./dist/liquid-glass-ui.css"
+      ],
+      "dist/style.css": [
+        "./dist/liquid-glass-ui.css"
+      ],
+      "themes/ey.css": [
+        "./src/themes/ey.css"
+      ],
+      "themes/light.css": [
+        "./src/themes/light.css"
+      ]
     }
   },
   "sideEffects": [
